@@ -8,8 +8,10 @@ export interface ProfileLink {
 }
 
 export interface Photo {
-  /** Path under `public/`, e.g. `/profile.jpg`. */
+  /** Square image under `public/`, 256 px (1x and 2x of the 112 px avatar). */
   src: string;
+  /** The same image at 512 px, for 3x screens and larger avatars. */
+  srcLarge: string;
   alt: string;
 }
 
@@ -30,9 +32,9 @@ export const profile: Profile = {
     'Platform manager by day: multicloud PaaS on AWS, GCP and Alibaba Cloud, cloud transformation, FinOps.',
     'Side projects by night: agentic engineering, native apps, open source.',
   ],
-  // TODO(operator): add a photo (e.g. public/profile.jpg, square, at least 256 px) and set
-  // photo: { src: '/profile.jpg', alt: 'Portrait of François G.' }. Until then the avatar shows the initials.
-  photo: undefined,
+  // Memoji supplied by the maintainer (2026-11-25): square crop on the head and shoulders, WebP, metadata stripped.
+  // Without a photo the avatar shows the initials.
+  photo: { src: '/profile-256.webp', srcLarge: '/profile-512.webp', alt: 'Memoji of François G.' },
   links: [
     { label: 'GitHub', href: 'https://github.com/francoisgn', icon: 'github' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/francois-g', icon: 'linkedin' },

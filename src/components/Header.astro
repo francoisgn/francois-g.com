@@ -8,9 +8,17 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
 ---
 <header class="hero">
   <GlassCard class="hero-card">
-    <div class="avatar">
+    <div class:list={['avatar', { photo: profile.photo }]}>
       {profile.photo ? (
-        <img src={profile.photo.src} alt={profile.photo.alt} width="112" height="112" decoding="async" />
+        <img
+          src={profile.photo.src}
+          srcset={`${profile.photo.src} 256w, ${profile.photo.srcLarge} 512w`}
+          sizes="112px"
+          alt={profile.photo.alt}
+          width="112"
+          height="112"
+          decoding="async"
+        />
       ) : (
         <span class="initials" aria-hidden="true">{profile.initials}</span>
       )}
@@ -72,6 +80,15 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
   }
 
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* The Memoji sits on black: a glass ring keeps the disc from reading as a hard hole in the light theme. */
+  .avatar.photo {
+    background: #000;
+    box-shadow:
+      0 0 0 3px var(--glass-border),
+      0 0 0 4px var(--glass-edge),
+      0 10px 24px -8px rgb(0 0 0 / 0.45);
+  }
 
   .initials {
     font-family: var(--font-rounded);
