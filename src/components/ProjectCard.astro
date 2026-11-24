@@ -1,9 +1,11 @@
 ---
-// Open-source project: name (links to the repository; the whole card is the target), stars when known and above
-// zero, a "contribution" badge for someone else's project, description, technology chips.
+// Own project: optional image, name (links to the repository; the whole card is the target), stars when known and
+// above zero, description, technology chips.
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
+import Shot from './Shot.astro';
+import Stars from './Stars.astro';
 import type { Project } from '../data/projects';
 
 interface Props {
@@ -14,9 +16,9 @@ interface Props {
 const { project, stars } = Astro.props;
 const url = `https://github.com/${project.repo}`;
 const id = `project-${project.repo.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
-const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
 ---
 <GlassCard as="article" interactive class="project-card" aria-labelledby={id}>
+  {project.visual && <Shot visual={project.visual} class="project-shot" />}
   <div class="top">
     <h3 id={id}>
       <a class="stretched" href={url} target="_blank" rel="noopener">
@@ -24,24 +26,8 @@ const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
         <span class="visually-hidden">on GitHub (opens in a new tab)</span>
       </a>
     </h3>
-    {stars !== undefined && stars > 0 && (
-      <span class="stars" title={starLabel}>
-        <Icon name="star" size={14} />
-        <span aria-hidden="true">{stars.toLocaleString('en-US')}</span>
-        <span class="visually-hidden">{starLabel}</span>
-      </span>
-    )}
+    <Stars count={stars} />
   </div>
-  {project.kind === 'contribution' && (
-    <p class="contrib">
-      <Chip label="Contribution" variant="accent" />
-      {project.upstream && (
-        <span class="upstream">
-          fork of <a href={`https://github.com/${project.upstream}`} target="_blank" rel="noopener">{project.upstream}<span class="visually-hidden"> (opens in a new tab)</span></a>
-        </span>
-      )}
-    </p>
-  )}
   <p class="desc">{project.description}</p>
   <ul class="tech" aria-label="Technologies">
     {project.tech.map((t) => <li><Chip label={t} variant="tech" /></li>)}
@@ -61,6 +47,8 @@ const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
     padding: 26px;
   }
 
+  :global(.project-shot) { margin-bottom: 4px; }
+
   .top {
     display: flex;
     align-items: baseline;
@@ -75,7 +63,7 @@ const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
     text-decoration: none;
   }
 
-  /* The whole card is the link target; links inside it sit above this layer. */
+  /* The whole card is the link target. */
   .stretched::after {
     content: "";
     position: absolute;
@@ -86,36 +74,6 @@ const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
 
   .stretched:focus-visible { outline: none; }
   .stretched:focus-visible::after { outline: 3px solid var(--focus); outline-offset: 3px; }
-
-  .stars {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    flex: none;
-    font-family: var(--font-rounded);
-    font-size: 14px;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    color: var(--text-2);
-  }
-
-  .stars :global(.icon) { color: #ff9f0a; }
-
-  .contrib {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin: -2px 0 0;
-    font-size: 14px;
-    color: var(--text-2);
-  }
-
-  .upstream a {
-    position: relative;
-    z-index: 2;
-    font-weight: 600;
-  }
 
   .desc { margin: 0; color: var(--text-2); font-size: 16px; flex: 1; }
 

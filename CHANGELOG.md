@@ -5,6 +5,13 @@ Notable changes, newest first. Entries accumulate under "Unreleased" until the f
 
 ## Unreleased
 
+### Changed
+
+- Site content and structure (#3): bio (platform manager by day, side projects by night), LinkedIn link; sections
+  reordered: Belayline featured first (every project is built with it), SwiftHFR as the Swift rewrite he leads (key
+  figures), the ArtCraft Crafting Apps (LightCraft, PdfCraft), Crédit Immo with its App Store link and renders, then
+  the other projects. Project images in WebP with intrinsic sizes, lazy-loaded; new Open Graph image.
+
 ### Added
 
 - Site v1 (#3): one page with the profile, the App Store apps and the open-source projects, in a Liquid Glass

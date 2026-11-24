@@ -1,6 +1,6 @@
 ---
 // App Store app: icon, platform, tagline, feature chips, then site / support / privacy and the App Store badge
-// (only when its URL is set).
+// (only when its URL is set), then a strip of App Store renders (scrolls on its own on a narrow screen).
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
@@ -51,11 +51,22 @@ const links = [
       </ul>
     </div>
     {app.language && <p class="note">The app and its site are in {app.language}.</p>}
+    {app.screenshots && app.screenshots.length > 0 && (
+      <ul class="shots" aria-label={`${app.name} on the App Store: screenshots`} tabindex="0">
+        {app.screenshots.map((s) => (
+          <li>
+            <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading="lazy" decoding="async" />
+          </li>
+        ))}
+      </ul>
+    )}
   </div>
 </GlassCard>
 
 <style>
   :global(.app-card) {
+    /* Grid item: without this the screenshot strip would widen the card instead of scrolling. */
+    min-width: 0;
     display: flex;
     gap: 28px;
     padding: 32px;
@@ -135,8 +146,35 @@ const links = [
 
   .note { margin: 14px 0 0; font-size: 14px; color: var(--text-2); }
 
+  .shots {
+    display: flex;
+    gap: 14px;
+    margin: 22px 0 0;
+    padding: 4px 2px 10px;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .shots:focus-visible { outline-offset: 2px; }
+
+  .shots li { flex: none; scroll-snap-align: start; }
+
+  .shots img {
+    display: block;
+    width: 150px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 0.5px var(--glass-edge),
+      0 10px 24px -12px rgb(0 0 0 / 0.45);
+  }
+
   @media (max-width: 640px) {
     :global(.app-card) { flex-direction: column; gap: 18px; padding: 24px 20px; }
     .app-icon { width: 80px; height: 80px; }
+    .shots img { width: 132px; }
   }
 </style>

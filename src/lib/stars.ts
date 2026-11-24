@@ -2,7 +2,13 @@
 // The build never fails because of this: any error (network, timeout, rate limit, unexpected body) keeps the fallback.
 // Endpoint: GET /repos/{owner}/{repo}, field `stargazers_count`
 // (https://docs.github.com/en/rest/repos/repos#get-a-repository, read 2026-11-24). No token: 60 requests/hour per IP.
-import type { Project, Repo } from '../data/projects';
+import type { Repo } from '../data/projects';
+
+/** Anything with a repository and an optional fallback star count. */
+export interface Starred {
+  repo: Repo;
+  stars?: number;
+}
 
 const TIMEOUT_MS = 5000;
 
@@ -32,7 +38,7 @@ async function fetchStars(repo: Repo): Promise<number | undefined> {
 const cache = new Map<Repo, Promise<number | undefined>>();
 
 /** Stars of every project's repository: the fetched value, else the static fallback, else undefined. */
-export async function starsFor(projects: Project[]): Promise<Map<Repo, number | undefined>> {
+export async function starsFor(projects: Starred[]): Promise<Map<Repo, number | undefined>> {
   const entries = await Promise.all(
     projects.map(async (p) => {
       let pending = cache.get(p.repo);

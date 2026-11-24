@@ -1,0 +1,37 @@
+---
+// A project's image in a card: intrinsic width/height (no layout shift), lazy unless it is above the fold, inner
+// radius and a hairline edge so light images keep a border on a light card.
+import type { Visual } from '../data/projects';
+
+interface Props {
+  visual: Visual;
+  /** Load at once (the first image of the page); every other image is lazy. */
+  eager?: boolean;
+  class?: string;
+}
+
+const { visual, eager = false, class: className } = Astro.props;
+---
+<img
+  class:list={['shot', className]}
+  src={visual.src}
+  alt={visual.alt}
+  width={visual.width}
+  height={visual.height}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+  decoding="async"
+/>
+
+<style>
+  .shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-inner);
+    box-shadow:
+      0 0 0 0.5px var(--glass-edge),
+      0 10px 28px -14px rgb(0 0 0 / 0.35);
+    background: var(--glass-strong);
+  }
+</style>

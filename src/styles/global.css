@@ -141,3 +141,39 @@ h1, h2, h3 {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Glass pill link ("View on GitHub"), shared by the project cards. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--chip-bg);
+  border: 0.5px solid var(--chip-border);
+  box-shadow: inset 0 1px 0 var(--specular), 0 2px 8px rgb(0 0 0 / 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 var(--specular), 0 6px 16px rgb(0 0 0 / 0.12);
+}
+
+.btn:focus-visible { border-radius: 999px; }
+
+/* Eyebrow above a section title or card name. */
+.eyebrow {
+  margin: 0 0 6px;
+  font-family: var(--font-rounded);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
