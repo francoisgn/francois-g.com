@@ -119,21 +119,34 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
   .pill:focus-visible { border-radius: 999px; }
 
   .sections {
+    justify-self: center;
     display: flex;
-    justify-content: center;
-    gap: 8px;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--glass);
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 0.5px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--specular), 0 4px 14px rgb(0 0 0 / 0.08);
   }
 
   .sections a {
-    padding: 10px 14px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 16px;
     border-radius: 999px;
     font-size: 15px;
     font-weight: 600;
     color: var(--text-2);
     text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  .sections a:hover { color: var(--text); }
+  .sections a:focus-visible { border-radius: 999px; }
+
+  .sections a:hover { color: var(--text); background: var(--chip-bg); }
 
   @media (prefers-reduced-motion: reduce) {
     .pill:hover { transform: none; }

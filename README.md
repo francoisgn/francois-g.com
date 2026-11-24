@@ -16,8 +16,10 @@
 > [francois-g.com](https://francois-g.com).
 
 **TL;DR**: an Astro static site, designed in the Liquid Glass spirit (Apple system fonts, glass cards, subtle
-gradients), built and deployed by CI from `main`. Nothing runs on a home server. Status: **bootstrap**; see the
-[issues](https://github.com/francoisgn/francois-g.com/issues).
+gradients), built and deployed by CI from `main`. Nothing runs on a home server. Status: **v1** (one page: profile,
+apps, open source); see the [issues](https://github.com/francoisgn/francois-g.com/issues).
+
+![The site in light mode, desktop width](docs/screenshots/desktop-light.jpg)
 
 ## Architecture
 
@@ -33,10 +35,14 @@ gradients), built and deployed by CI from `main`. Nothing runs on a home server.
 
 | Path | Role |
 |---|---|
-| `src/pages/` | Pages (home: profile, apps, open source) |
-| `src/components/` | Glass cards, chips, header |
-| `src/data/` | Projects and profile data (typed) |
-| `public/` | Static files, `CNAME` (custom domain) |
+| `src/pages/index.astro` | The one page: header, apps, open source, footer |
+| `src/layouts/Layout.astro` | Page shell: meta (Open Graph, Twitter), favicon, skip link |
+| `src/components/` | `GlassCard`, `Chip`, `Header`, `AppCard`, `ProjectCard`, `Footer`, `Icon` (inline SVG) |
+| `src/styles/global.css` | Liquid Glass tokens (colours, glass, shadows), light and dark |
+| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `projects.ts` (placeholders marked `TODO(operator)`) |
+| `src/lib/stars.ts` | GitHub stars fetched at build time; any API error keeps the static fallback |
+| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icons |
+| `docs/screenshots/` | Desktop and mobile, light and dark |
 | `Dockerfile`, `compose.yaml` | Dev and test container (`docker compose up dev`) |
 | `.github/workflows/ci.yml` | pre-commit, `astro check`, build, gitleaks; deploy to Pages from `main` |
 
@@ -56,6 +62,13 @@ Or in a container (OrbStack or Docker Desktop):
 docker compose up dev              # hot reload on http://localhost:4321
 docker compose run --rm check      # astro check + build, as CI
 ```
+
+## Editing the content
+
+Everything shown comes from `src/data/`. Search for `TODO(operator)` for what is still to fill in (bio, photo,
+LinkedIn URL, App Store URL); an unset link is not rendered. Star counts are fetched from the GitHub REST API at build
+time, without a token; when the API fails or is rate-limited, the `stars` value of `projects.ts` is used and the
+build goes on. Set `GITHUB_API_URL` to an unreachable URL to try that path.
 
 ## Development
 
