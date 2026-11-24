@@ -1,0 +1,14 @@
+# build output and generated types
+dist/
+.astro/
+# dependencies
+node_modules/
+# logs
+npm-debug.log*
+# environment variables
+.env
+.env.*
+# OS and editors
+.DS_Store
+.idea/
+**/.claude/settings.local.json

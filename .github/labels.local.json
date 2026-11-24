@@ -1,0 +1,6 @@
+[
+  { "name": "area: site", "color": "BC52EE", "axis": "area", "description": "Pages, components, design, content" },
+  { "name": "area: dns", "color": "0A84FF", "axis": "area", "description": "Gandi DNS, custom domain, redirects, local names" },
+  { "name": "area: network", "color": "64D2FF", "axis": "area", "description": "Home network side: UniFi local DNS, VPN, local certificates" },
+  { "name": "area: build", "color": "8E8E93", "axis": "area", "description": "CI, deployment, dev container, harness" }
+]

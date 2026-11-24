@@ -1,0 +1,16 @@
+# Local development in a container: `docker compose up dev` (hot reload, http://localhost:4321),
+# `docker compose run --rm check` (astro check + build, as CI), `docker compose up preview` (built site).
+services:
+  dev:
+    build: .
+    ports: ["127.0.0.1:4321:4321"]
+    volumes:
+      - ./src:/site/src
+      - ./public:/site/public
+  check:
+    build: .
+    command: ["sh", "-c", "npm run check && npm run build"]
+  preview:
+    build: .
+    command: ["sh", "-c", "npm run build && npm run preview -- --host 0.0.0.0"]
+    ports: ["127.0.0.1:4321:4321"]
