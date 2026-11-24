@@ -1,0 +1,145 @@
+---
+// Open-source project: name (links to the repository; the whole card is the target), stars when known and above
+// zero, a "contribution" badge for someone else's project, description, technology chips.
+import GlassCard from './GlassCard.astro';
+import Chip from './Chip.astro';
+import Icon from './Icon.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  stars?: number;
+}
+
+const { project, stars } = Astro.props;
+const url = `https://github.com/${project.repo}`;
+const id = `project-${project.repo.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+const starLabel = stars === 1 ? '1 star on GitHub' : `${stars} stars on GitHub`;
+---
+<GlassCard as="article" interactive class="project-card" aria-labelledby={id}>
+  <div class="top">
+    <h3 id={id}>
+      <a class="stretched" href={url} target="_blank" rel="noopener">
+        {project.name}
+        <span class="visually-hidden">on GitHub (opens in a new tab)</span>
+      </a>
+    </h3>
+    {stars !== undefined && stars > 0 && (
+      <span class="stars" title={starLabel}>
+        <Icon name="star" size={14} />
+        <span aria-hidden="true">{stars.toLocaleString('en-US')}</span>
+        <span class="visually-hidden">{starLabel}</span>
+      </span>
+    )}
+  </div>
+  {project.kind === 'contribution' && (
+    <p class="contrib">
+      <Chip label="Contribution" variant="accent" />
+      {project.upstream && (
+        <span class="upstream">
+          fork of <a href={`https://github.com/${project.upstream}`} target="_blank" rel="noopener">{project.upstream}<span class="visually-hidden"> (opens in a new tab)</span></a>
+        </span>
+      )}
+    </p>
+  )}
+  <p class="desc">{project.description}</p>
+  <ul class="tech" aria-label="Technologies">
+    {project.tech.map((t) => <li><Chip label={t} variant="tech" /></li>)}
+  </ul>
+  <p class="repo" aria-hidden="true">
+    <Icon name="github" size={15} />
+    <span>{project.repo}</span>
+    <Icon name="arrow" size={14} />
+  </p>
+</GlassCard>
+
+<style>
+  :global(.project-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 26px;
+  }
+
+  .top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h3 { font-size: 1.3rem; font-weight: 700; overflow-wrap: anywhere; }
+
+  .stretched {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  /* The whole card is the link target; links inside it sit above this layer. */
+  .stretched::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius-card);
+  }
+
+  .stretched:focus-visible { outline: none; }
+  .stretched:focus-visible::after { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+  .stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    font-family: var(--font-rounded);
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-2);
+  }
+
+  .stars :global(.icon) { color: #ff9f0a; }
+
+  .contrib {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: -2px 0 0;
+    font-size: 14px;
+    color: var(--text-2);
+  }
+
+  .upstream a {
+    position: relative;
+    z-index: 2;
+    font-weight: 600;
+  }
+
+  .desc { margin: 0; color: var(--text-2); font-size: 16px; flex: 1; }
+
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .repo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0 0;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--chip-border);
+    font-family: var(--font-rounded);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+
+  .repo span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>

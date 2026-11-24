@@ -1,0 +1,21 @@
+---
+// Footer: copyright (year of the build) and a link to the site's source.
+import { profile, siteRepo } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <p>
+    © {year} {profile.name} · <a href={siteRepo}>Source on GitHub</a>
+  </p>
+</footer>
+
+<style>
+  .footer {
+    padding: 8px 0 40px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-2);
+  }
+  .footer p { margin: 0; }
+</style>

@@ -1,0 +1,142 @@
+---
+// App Store app: icon, platform, tagline, feature chips, then site / support / privacy and the App Store badge
+// (only when its URL is set).
+import GlassCard from './GlassCard.astro';
+import Chip from './Chip.astro';
+import Icon from './Icon.astro';
+import type { App } from '../data/apps';
+
+interface Props {
+  app: App;
+}
+
+const { app } = Astro.props;
+const id = `app-${app.name.normalize('NFD').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+const lang = app.language ? ` (${app.language})` : '';
+const links = [
+  { label: 'Website', href: app.links.site, icon: 'globe' as const },
+  { label: 'Support', href: app.links.support, icon: 'support' as const },
+  { label: 'Privacy', href: app.links.privacy, icon: 'shield' as const },
+];
+---
+<GlassCard as="article" class="app-card" aria-labelledby={id}>
+  <img class="app-icon" src={app.icon.src} alt={app.icon.alt} width="96" height="96" decoding="async" />
+  <div class="body">
+    <div class="title-row">
+      <h3 id={id}>{app.name}</h3>
+      <Chip label={app.platform} />
+    </div>
+    <p class="tagline">{app.tagline}</p>
+    <ul class="features" aria-label="Features">
+      {app.features.map((f) => <li><Chip label={f} /></li>)}
+    </ul>
+    <div class="actions">
+      {app.links.appStore && (
+        <a class="store" href={app.links.appStore} target="_blank" rel="noopener">
+          <Icon name="appstore" size={22} />
+          <span><small>Download on the</small> App Store</span>
+          <span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+      )}
+      <ul class="links">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} hreflang={app.language ? 'fr' : undefined} target="_blank" rel="noopener">
+              <Icon name={l.icon} size={16} />
+              {l.label}
+              <span class="visually-hidden">{lang} (opens in a new tab)</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    {app.language && <p class="note">The app and its site are in {app.language}.</p>}
+  </div>
+</GlassCard>
+
+<style>
+  :global(.app-card) {
+    display: flex;
+    gap: 28px;
+    padding: 32px;
+  }
+
+  .app-icon {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    border-radius: 22.5%;
+    box-shadow:
+      0 0 0 0.5px rgb(0 0 0 / 0.12),
+      0 10px 24px -8px rgb(0 0 0 / 0.35);
+  }
+
+  .body { flex: 1; min-width: 0; }
+
+  .title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h3 { font-size: 1.6rem; font-weight: 700; }
+
+  .tagline { margin: 8px 0 16px; color: var(--text-2); }
+
+  .features, .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: 22px;
+  }
+
+  .links { gap: 6px 18px; }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  .links a:hover { text-decoration: underline; }
+
+  .store {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 6px 18px 6px 14px;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(180deg, #2c2c2e, #000);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 6px 16px -6px rgb(0 0 0 / 0.5);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.05;
+    text-decoration: none;
+  }
+
+  .store small { display: block; font-size: 11px; font-weight: 500; opacity: 0.9; }
+
+  .note { margin: 14px 0 0; font-size: 14px; color: var(--text-2); }
+
+  @media (max-width: 640px) {
+    :global(.app-card) { flex-direction: column; gap: 18px; padding: 24px 20px; }
+    .app-icon { width: 80px; height: 80px; }
+  }
+</style>
