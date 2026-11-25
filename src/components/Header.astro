@@ -3,6 +3,7 @@
 import GlassCard from './GlassCard.astro';
 import Icon from './Icon.astro';
 import { profile } from '../data/profile';
+import { cv } from '../data/cv';
 
 const links = profile.links.filter((l): l is typeof l & { href: string } => Boolean(l.href));
 ---
@@ -49,6 +50,7 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
     <a href="#artcraft">ArtCraft</a>
     <a href="#apps">Apps</a>
     <a href="#projects">Projects</a>
+    {cv.linkedFromHome && <a href="/cv/">CV</a>}
   </nav>
 </header>
 

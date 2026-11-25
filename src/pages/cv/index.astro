@@ -1,0 +1,279 @@
+---
+// Unlisted CV page (noindex, out of the sitemap, linked from the home page only when cv.linkedFromHome is true).
+// The same page, printed by scripts/cv-pdf.sh with the print styles below, is the downloadable A4 PDF.
+// PRIVACY: contact is LinkedIn and GitHub only; no address, phone or email (src/data/cv.ts).
+import Layout from '../../layouts/Layout.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import Icon from '../../components/Icon.astro';
+import Footer from '../../components/Footer.astro';
+import { cv } from '../../data/cv';
+import { profile } from '../../data/profile';
+
+// Absolute, so that the link printed in the PDF points at the site, not at the preview server.
+const home = new URL('/', Astro.site).href;
+---
+<Layout title={`${cv.fullName}: CV`} description={`${cv.fullName}, ${cv.headline}.`} noindex>
+  <nav class="bar no-print" aria-label="CV">
+    <a class="btn" href={home}><span aria-hidden="true">←</span> {profile.name}</a>
+    <a class="btn primary" href={cv.pdf} download>
+      <Icon name="arrow" size={16} />
+      Download PDF
+    </a>
+  </nav>
+
+  <main id="main" class="cv">
+    <GlassCard as="header" class="cv-head">
+      {profile.photo && (
+        <img class="avatar no-print" src={profile.photo.src} alt={profile.photo.alt} width="96" height="96" decoding="async" />
+      )}
+      <div>
+        <h1>{cv.fullName}</h1>
+        <p class="headline">{cv.headline}</p>
+        <p class="tagline">{cv.tagline}</p>
+        <ul class="links">
+          {cv.links.map((l) => (
+            <li>
+              <a href={l.href} rel="me noopener" target="_blank">
+                <Icon name={l.icon} size={16} />
+                <span>{l.text}</span>
+                <span class="visually-hidden">({l.label}, opens in a new tab)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </GlassCard>
+
+    <section aria-labelledby="summary-title">
+      <h2 id="summary-title">Summary</h2>
+      <GlassCard class="block">
+        <p class="summary">{cv.summary}</p>
+      </GlassCard>
+    </section>
+
+    <section aria-labelledby="experience-title">
+      <h2 id="experience-title">Professional experience</h2>
+      <ol class="timeline">
+        {cv.experience.map((r) => (
+          <li>
+            <GlassCard as="article" class="block role">
+              <p class="period">{r.period}</p>
+              <h3>{r.title}</h3>
+              <p class="org">{r.org} · {r.place}</p>
+              {r.intro.map((t) => <p class="intro">{t}</p>)}
+              {r.focus && (
+                <>
+                  <p class="focus-title">{r.focus.title}</p>
+                  <ul class="focus">
+                    {r.focus.items.map((i) => <li>{i}</li>)}
+                  </ul>
+                </>
+              )}
+              {r.bullets && (
+                <ul class="bullets">
+                  {r.bullets.map((b) => <li>{b}</li>)}
+                </ul>
+              )}
+            </GlassCard>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="education-title">
+      <h2 id="education-title">Education and certifications</h2>
+      <GlassCard class="block">
+        <dl class="education">
+          {cv.education.map((e) => (
+            <div>
+              <dt>{e.year}</dt>
+              <dd>
+                {e.title}
+                {e.detail && <span class="detail">{e.detail}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p class="certs"><strong>Certifications:</strong> {cv.certifications}</p>
+      </GlassCard>
+    </section>
+  </main>
+  <div class="no-print"><Footer /></div>
+</Layout>
+
+<style>
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .primary { color: var(--accent); }
+  .primary :global(.icon) { transform: rotate(90deg); }
+
+  .cv { display: grid; gap: 40px; padding: 28px 0 56px; }
+
+  .cv :global(.cv-head) {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding: 30px;
+  }
+
+  .avatar {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: #000;
+    box-shadow: 0 0 0 3px var(--glass-border), 0 0 0 4px var(--glass-edge), 0 10px 24px -8px rgb(0 0 0 / 0.45);
+  }
+
+  h1 { font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem); font-weight: 700; }
+
+  .headline { margin: 6px 0 0; font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+
+  .tagline { margin: 6px 0 14px; color: var(--text-2); }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  .links a:hover { text-decoration: underline; }
+
+  h2 {
+    margin: 0 0 14px 6px;
+    font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem);
+    font-weight: 700;
+  }
+
+  section { min-width: 0; }
+
+  .cv :global(.block) { padding: 24px 28px; }
+
+  .summary { margin: 0; color: var(--text-2); }
+
+  .timeline {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .period {
+    margin: 0 0 4px;
+    font-family: var(--font-rounded);
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+  }
+
+  h3 { font-size: 1.25rem; font-weight: 700; }
+
+  .org { margin: 4px 0 10px; font-weight: 600; }
+
+  .intro { margin: 0 0 8px; color: var(--text-2); }
+
+  .focus-title { margin: 12px 0 4px; font-weight: 600; }
+
+  .focus, .bullets { margin: 0 0 4px; padding-left: 1.2em; color: var(--text-2); }
+
+  .bullets { list-style: disc; }
+
+  .focus { list-style: "– "; }
+
+  .bullets { margin-top: 10px; }
+
+  .focus li + li, .bullets li + li { margin-top: 4px; }
+
+  .education { display: grid; gap: 10px; margin: 0 0 16px; }
+
+  .education div { display: grid; grid-template-columns: 12rem 1fr; gap: 4px 16px; }
+
+  dt { font-family: var(--font-rounded); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  dd { margin: 0; }
+
+  .detail { display: block; font-style: italic; color: var(--text-2); }
+
+  .certs { margin: 0; color: var(--text-2); }
+
+  .certs strong { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .cv :global(.cv-head) { flex-direction: column; align-items: flex-start; padding: 24px 20px; gap: 16px; }
+    .cv :global(.block) { padding: 20px; }
+    .education div { grid-template-columns: 1fr; }
+  }
+
+  /* Print and PDF (A4): plain white page, no glass, no blur, compact type; links shown as text. */
+  @media print {
+    @page { size: A4; margin: 14mm 15mm; }
+
+    :global(html), :global(body) { background: #fff !important; color: #111 !important; font-size: 9.6pt; line-height: 1.38; }
+    :global(body::before) { display: none !important; }
+    :global(.page) { width: auto !important; padding: 0 !important; }
+    :global(.skip), .no-print { display: none !important; }
+
+    .cv { gap: 14pt; padding: 0; }
+
+    .cv :global(.glass) {
+      background: none !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-radius: 0 !important;
+    }
+    .cv :global(.glass::before) { display: none !important; }
+
+    .cv :global(.cv-head), .cv :global(.block) { padding: 0 !important; }
+    .cv :global(.cv-head) { border-bottom: 1.5pt solid #0a4f8a !important; padding-bottom: 8pt !important; }
+
+    h1 { font-size: 22pt; }
+    .headline { font-size: 12.5pt; color: #0a4f8a; }
+    .tagline, .summary, .intro, .focus, .bullets, .certs, .detail { color: #333; }
+    .links a { color: #0a4f8a; font-size: 9.6pt; min-height: 0; }
+
+    h2 {
+      margin: 0 0 6pt;
+      padding-bottom: 2pt;
+      font-size: 13pt;
+      color: #0a4f8a;
+      border-bottom: 0.5pt solid #c8d3df;
+      break-after: avoid;
+    }
+
+    .timeline { gap: 10pt; }
+    .period { color: #0a4f8a; font-size: 9pt; margin: 0; break-after: avoid; }
+    h3 { font-size: 11pt; break-after: avoid; }
+    .org { margin: 1pt 0 4pt; break-after: avoid; }
+    .intro, li { orphans: 2; widows: 2; }
+    .focus li, .bullets li { break-inside: avoid; }
+    .intro { margin: 0 0 4pt; }
+    .focus-title { margin: 4pt 0 2pt; }
+    .focus li + li, .bullets li + li { margin-top: 1pt; }
+    .bullets { margin-top: 4pt; }
+
+    .education { gap: 3pt; margin-bottom: 6pt; }
+    .education div { grid-template-columns: 11.5rem 1fr; break-inside: avoid; }
+  }
+</style>
