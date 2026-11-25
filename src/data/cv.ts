@@ -1,7 +1,8 @@
 // CV shown on the unlisted page /cv/ and rendered to its PDF (scripts/cv-pdf.sh). Wording from the maintainer's
 // 2026 resume (PDF export), with light fixes only: obvious typos and PDF-extraction hyphens, "12+" → "15+ years"
 // (maintainer, 2026-11-25), "(en cours)" → "(in progress)", the two Worldline leadership programmes grouped
-// (maintainer, 2026-11-25).
+// (maintainer, 2026-11-25); current Valeo role rewritten from the maintainer's notes (2026-11-25: CoE lead role
+// stated as a fact, not a title; spend as "eight-figure", no exact figure).
 // PRIVACY (CLAUDE.md, "Personal data"): no postal address, phone number or email here, ever. Contact = LinkedIn and
 // GitHub only. The full name appears on this page and its PDF only; the landing page stays "François G.".
 
@@ -13,6 +14,11 @@ export interface CvLink {
   icon: 'linkedin' | 'github';
 }
 
+export interface FocusList {
+  title: string;
+  items: string[];
+}
+
 export interface Role {
   /** "2026/03 – now", as in the resume. */
   period: string;
@@ -21,8 +27,8 @@ export interface Role {
   place: string;
   /** Paragraphs under the title. */
   intro: string[];
-  /** A titled list of short items ("Key focus areas", "Key Strategic Deliverables"). */
-  focus?: { title: string; items: string[] };
+  /** Titled lists of short items ("Key focus areas", "Cloud Center of Excellence"); one list or several. */
+  focus?: FocusList | FocusList[];
   /** Achievements, one bullet each. */
   bullets?: string[];
 }
@@ -77,27 +83,36 @@ export const cv: Cv = {
       org: 'Valeo / Group IS',
       place: 'Paris, France',
       intro: [
-        "Leading the creation and operationalization of Valeo's Group-wide Cloud Center of Excellence, governing 30+ " +
-          'infrastructure/platform engineers and 2–3 architects across a multi-million-euro annual cloud investment ' +
-          'spanning AWS, GCP and Alicloud. Accountable for the strategic shift from fragmented IaC-only delivery to an ' +
-          'integrated Internal Development Platform (IDP) mode and streamlined developer experience (DevEx) in ' +
-          'regulated environment (ISO27001, TISAX).',
+        'Leading the Group Cloud Center of Excellence since 2026/03: AWS, GCP and Alibaba Cloud landing zones, ' +
+          'platform engineering and FinOps for an eight-figure annual cloud spend, in a regulated environment ' +
+          '(ISO 27001, TISAX). Accountable for the shift from fragmented IaC-only delivery to an integrated Internal ' +
+          'Developer Platform (IDP) and a streamlined developer experience.',
       ],
-      focus: {
-        title: 'Key Strategic Deliverables',
-        items: [
-          'Multi-cloud strategy definition: Single to multi-cloud, preparing ramp-up of China and EU Sovereign clouds',
-          'Platform Engineering: Define and implement IDP offering covering software factory, observability, IaC, ' +
-            'configuration management, FinOps, Network, CyberSec',
-          'FinOps governance: Establish chargeback model and cost optimization framework aligning cloud consumption ' +
-            'with business priorities',
-          'Security & compliance: Network segregation, cybersecurity frameworks, regulatory alignment across ' +
-            'multi-region deployments',
-          'AI adoption enablement: Platform capabilities supporting AI/ML workload deployment and scaling. Defining AI ' +
-            'tooling strategy including AIOps integration, AI-assisted developer workflows and LLM-powered platform ' +
-            'operations.',
-        ],
-      },
+      focus: [
+        {
+          title: 'Cloud Center of Excellence',
+          items: [
+            'Lead 20–30 cloud engineers and architects across France and India, and manage the MSPs',
+            'GCP: landing zone deployment; takeover of a legacy GCP estate, brought back on track',
+            'AWS: landing zone management and evolution',
+            'Alibaba Cloud: onboarding of the China landing zone into group systems',
+            'Multi-cloud strategy: from single to multi-cloud, preparing the China and EU sovereign clouds',
+          ],
+        },
+        {
+          title: 'Platform Engineering',
+          items: [
+            'Org policies and IDP: self-service policies, access management',
+            'Centralised FinOps: cost analytics beyond spend reporting, GCP CUDs and AWS Savings Plans, on-demand and ' +
+              'scheduled environments, advisory register',
+            'AI-ready software factory: new VCS, CI/CD, gates and guardrails; IaC, configuration-, governance- and ' +
+              'network-as-code; knowledge management and agile planning; monitoring; communication human ↔ human, ' +
+              'human ↔ agent, agent ↔ agent',
+            'Preferred infrastructure and cloud counterpart, delivered as a service, for the AI programme (AI4All), ' +
+              'Valeo Services and the Data Platform',
+          ],
+        },
+      ],
     },
     {
       period: '2025/04 – 2026/03',

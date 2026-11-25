@@ -61,14 +61,14 @@ const home = new URL('/', Astro.site).href;
               <h3>{r.title}</h3>
               <p class="org">{r.org} · {r.place}</p>
               {r.intro.map((t) => <p class="intro">{t}</p>)}
-              {r.focus && (
+              {r.focus && [r.focus].flat().map((f) => (
                 <>
-                  <p class="focus-title">{r.focus.title}</p>
+                  <p class="focus-title">{f.title}</p>
                   <ul class="focus">
-                    {r.focus.items.map((i) => <li>{i}</li>)}
+                    {f.items.map((i) => <li>{i}</li>)}
                   </ul>
                 </>
-              )}
+              ))}
               {r.bullets && (
                 <ul class="bullets">
                   {r.bullets.map((b) => <li>{b}</li>)}

@@ -29,8 +29,11 @@ export const profile: Profile = {
   name: 'François G.',
   initials: 'FG',
   bio: [
-    'Group Cloud Platform Manager at Valeo by day: multicloud PaaS on AWS, GCP and Alibaba Cloud, cloud transformation, FinOps.',
-    'Side projects by night: agentic engineering, native apps, open source.',
+    'Group Cloud Platform Manager at Valeo, leading the Group Cloud Center of Excellence: AWS, GCP and Alibaba Cloud ' +
+      'landing zones, platform engineering and FinOps, with 20–30 cloud engineers and architects across France and India.',
+    '15+ years in SRE and platform leadership, from payment platforms at Ingenico/Worldline (99.98 % availability, ' +
+      'billions of transactions a year) to industrial multi-cloud.',
+    'Side projects by night: agentic engineering (Belayline), native apps, open source.',
   ],
   // Memoji supplied by the maintainer (2026-11-25): square crop on the head and shoulders, WebP, metadata stripped.
   // Without a photo the avatar shows the initials.
