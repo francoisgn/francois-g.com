@@ -33,9 +33,16 @@ export interface Role {
   bullets?: string[];
 }
 
+export interface Step {
+  label: string;
+  done: boolean;
+}
+
 export interface Education {
   year: string;
   title: string;
+  /** Programme progress, shown as a row of steps (web) or a plain line (print/PDF). Update `done` after each step. */
+  steps?: Step[];
   /** Lines under the title (programme, modules). */
   details?: string[];
 }
@@ -298,9 +305,18 @@ export const cv: Cv = {
   ],
   education: [
     {
-      year: '2026–2027',
-      title: 'HEC Paris Executive Education - Strategie@HEC (in progress)',
-      details: ['RS5539. Strategic management, organizational governance, executive leadership.'],
+      // Final exam window closes 2027-03-09: after the exam, set the last step to done and drop "(in progress)".
+      year: '2026/03 – 2027/03',
+      title: 'HEC Paris Executive Education, Stratégie@HEC (in progress)',
+      steps: [
+        { label: 'Business Strategy', done: true },
+        { label: 'Corporate Strategy', done: true },
+        { label: 'Strategy Implementation & Change Management', done: true },
+        { label: 'Final certification exam', done: false },
+      ],
+      details: [
+        '12-month executive certificate (RS5539): strategic management, organizational governance, executive leadership.',
+      ],
     },
     {
       year: '2021–2022',

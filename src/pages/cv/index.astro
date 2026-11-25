@@ -89,6 +89,17 @@ const home = new URL('/', Astro.site).href;
               <dt>{e.year}</dt>
               <dd>
                 {e.title}
+                {e.steps && (
+                  <ol class="steps" aria-label={`Progress: ${e.steps.filter((x) => x.done).length} of ${e.steps.length} steps completed`}>
+                    {e.steps.map((st) => (
+                      <li class={st.done ? 'done' : 'todo'}>
+                        <span class="mark" aria-hidden="true">{st.done ? '✓' : '○'}</span>
+                        {st.label}
+                        <span class="visually-hidden">{st.done ? ' (completed)' : ' (in progress)'}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
                 {e.details?.map((d) => <span class="detail">{d}</span>)}
               </dd>
             </div>
@@ -214,6 +225,31 @@ const home = new URL('/', Astro.site).href;
 
   .detail { display: block; font-style: italic; color: var(--text-2); }
 
+  .steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; padding: 0; list-style: none; }
+  .steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px 4px 8px;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg);
+  }
+  .steps .mark {
+    display: inline-grid;
+    place-items: center;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
+    font-size: 0.78em;
+    font-weight: 700;
+  }
+  .steps .done .mark { background: var(--accent); color: #fff; }
+  .steps .todo { color: var(--text-2); border-style: dashed; background: transparent; }
+  .steps .todo .mark { border: 1.5px solid var(--text-2); color: transparent; }
+
   .certs { margin: 0; color: var(--text-2); }
 
   .certs strong { color: var(--text); }
@@ -275,5 +311,8 @@ const home = new URL('/', Astro.site).href;
 
     .education { gap: 3pt; margin-bottom: 6pt; }
     .education div { grid-template-columns: 11.5rem 1fr; break-inside: avoid; }
+    .steps { gap: 2pt 8pt; margin: 2pt 0; }
+    .steps li { padding: 0; border: 0 !important; background: none !important; font-size: 9pt; color: #333; }
+    .steps .mark { width: auto; height: auto; background: none !important; color: #0a4f8a !important; border: 0 !important; font-size: 9pt; }
   }
 </style>
