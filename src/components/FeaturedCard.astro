@@ -1,0 +1,87 @@
+---
+// The harness, featured first: wide social preview (it carries the tagline), name and stars, the statement that
+// every project below is built with it, description, highlight chips, technologies, link to the repository.
+import GlassCard from './GlassCard.astro';
+import Chip from './Chip.astro';
+import Icon from './Icon.astro';
+import Shot from './Shot.astro';
+import Stars from './Stars.astro';
+import type { Harness } from '../data/projects';
+
+interface Props {
+  harness: Harness;
+  stars?: number;
+}
+
+const { harness, stars } = Astro.props;
+const url = `https://github.com/${harness.repo}`;
+---
+<GlassCard as="article" class="featured-card" aria-labelledby="featured-name">
+  {harness.visual && <Shot visual={harness.visual} eager />}
+  <div class="body">
+    <div class="title-row">
+      <h3 id="featured-name">{harness.name}</h3>
+      <Stars count={stars} />
+    </div>
+    <p class="statement">
+      The harness behind my work: every project on this page is built with it.
+    </p>
+    <p class="desc">{harness.description}</p>
+    <ul class="chips" aria-label="What it brings">
+      {harness.highlights.map((h) => <li><Chip label={h} variant="accent" /></li>)}
+    </ul>
+    <ul class="chips" aria-label="Technologies">
+      {harness.tech.map((t) => <li><Chip label={t} variant="tech" /></li>)}
+    </ul>
+    <p class="actions">
+      <a class="btn" href={url} target="_blank" rel="noopener">
+        <Icon name="github" />
+        <span>View {harness.name} on GitHub</span>
+        <span class="visually-hidden">(opens in a new tab)</span>
+      </a>
+    </p>
+  </div>
+</GlassCard>
+
+<style>
+  :global(.featured-card) {
+    display: grid;
+    gap: 26px;
+    padding: 20px 20px 32px;
+  }
+
+  .body { padding: 0 14px; }
+
+  .title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 14px;
+  }
+
+  h3 { font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.5rem); font-weight: 700; }
+
+  .statement {
+    margin: 8px 0 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .desc { margin: 8px 0 18px; color: var(--text-2); max-width: 72ch; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .actions { margin: 12px 0 0; }
+
+  @media (max-width: 640px) {
+    :global(.featured-card) { padding: 12px 12px 24px; gap: 20px; }
+    .body { padding: 0 8px; }
+  }
+</style>

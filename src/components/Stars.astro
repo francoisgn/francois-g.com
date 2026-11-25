@@ -1,0 +1,42 @@
+---
+// GitHub star count: icon, compact figure, full wording for screen readers. Renders nothing for 0 or unknown.
+import Icon from './Icon.astro';
+
+interface Props {
+  count?: number;
+  /** "12.3k" instead of "12,345" (large counts). */
+  compact?: boolean;
+}
+
+const { count, compact = false } = Astro.props;
+const label = count === 1 ? '1 star on GitHub' : `${count?.toLocaleString('en-US')} stars on GitHub`;
+const shown =
+  count === undefined
+    ? ''
+    : compact
+      ? new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(count)
+      : count.toLocaleString('en-US');
+---
+{count !== undefined && count > 0 && (
+  <span class="stars" title={label}>
+    <Icon name="star" size={14} />
+    <span aria-hidden="true">{shown}</span>
+    <span class="visually-hidden">{label}</span>
+  </span>
+)}
+
+<style>
+  .stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    font-family: var(--font-rounded);
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-2);
+  }
+
+  .stars :global(.icon) { color: #ff9f0a; }
+</style>

@@ -46,3 +46,13 @@ repos:
     rev: v2.15.1
     hooks:
       - id: hadolint             # Dockerfile (dev container)
+
+  - repo: local
+    hooks:
+      - id: cv-pdf
+        name: CV PDF up to date with its page
+        entry: scripts/cv-pdf.sh --check   # the PDF is rendered locally (scripts/cv-pdf.sh) and committed
+        language: system
+        pass_filenames: false
+        # Keep in sync with INPUTS in scripts/cv-pdf.sh.
+        files: ^(src/data/cv\.ts|src/pages/cv/index\.astro|src/layouts/Layout\.astro|src/styles/global\.css|src/components/(GlassCard|Icon)\.astro|public/cv/.*|scripts/cv-pdf\.(sh|sha256))$

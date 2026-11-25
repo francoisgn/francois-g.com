@@ -1,0 +1,198 @@
+---
+// Hero: avatar (photo or initials), name, short bio (one paragraph per line), profile links. Links without a URL are not rendered.
+import GlassCard from './GlassCard.astro';
+import Icon from './Icon.astro';
+import { profile } from '../data/profile';
+import { cv } from '../data/cv';
+
+const links = profile.links.filter((l): l is typeof l & { href: string } => Boolean(l.href));
+---
+<header class="hero">
+  <GlassCard class="hero-card">
+    <div class:list={['avatar', { photo: profile.photo }]}>
+      {profile.photo ? (
+        <img
+          src={profile.photo.src}
+          srcset={`${profile.photo.src} 256w, ${profile.photo.srcLarge} 512w`}
+          sizes="112px"
+          alt={profile.photo.alt}
+          width="112"
+          height="112"
+          decoding="async"
+        />
+      ) : (
+        <span class="initials" aria-hidden="true">{profile.initials}</span>
+      )}
+    </div>
+    <div class="intro">
+      <h1>{profile.name}</h1>
+      <div class="bio">
+        {profile.bio.map((line) => <p>{line}</p>)}
+      </div>
+      <nav aria-label="Profiles">
+        <ul class="links">
+          {links.map((l) => (
+            <li>
+              <a class="pill" href={l.href} rel="me noopener" target="_blank">
+                <Icon name={l.icon} />
+                <span>{l.label}</span>
+                <span class="visually-hidden">(opens in a new tab)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </GlassCard>
+  <nav class="sections" aria-label="Sections">
+    <a href="#belayline">Belayline</a>
+    <a href="#swifthfr">SwiftHFR</a>
+    <a href="#artcraft">ArtCraft</a>
+    <a href="#apps">Apps</a>
+    <a href="#projects">Projects</a>
+    {cv.linkedFromHome && <a href="/cv/">CV</a>}
+  </nav>
+</header>
+
+<style>
+  .hero { display: grid; gap: 14px; }
+
+  .hero :global(.hero-card) {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 32px;
+  }
+
+  .avatar {
+    flex: none;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 30% 25%, rgb(255 255 255 / 0.55), transparent 50%),
+      linear-gradient(135deg, #5ac8fa, #007aff 45%, #af52de);
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 0.6),
+      inset 0 -2px 6px rgb(0 0 0 / 0.15),
+      0 10px 24px -8px rgb(0 60 160 / 0.45);
+  }
+
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* The Memoji sits on black: a glass ring keeps the disc from reading as a hard hole in the light theme. */
+  .avatar.photo {
+    background: #000;
+    box-shadow:
+      0 0 0 3px var(--glass-border),
+      0 0 0 4px var(--glass-edge),
+      0 10px 24px -8px rgb(0 0 0 / 0.45);
+  }
+
+  .initials {
+    font-family: var(--font-rounded);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  }
+
+  h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem); font-weight: 700; }
+
+  .bio {
+    margin: 8px 0 18px;
+    font-size: 1.125rem;
+    color: var(--text-2);
+  }
+
+  .bio p { margin: 0; }
+  .bio p + p { margin-top: 4px; }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--chip-bg);
+    border: 0.5px solid var(--chip-border);
+    box-shadow: inset 0 1px 0 var(--specular), 0 2px 8px rgb(0 0 0 / 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .pill:hover {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 var(--specular), 0 6px 16px rgb(0 0 0 / 0.12);
+  }
+
+  .pill:focus-visible { border-radius: 999px; }
+
+  .sections {
+    justify-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--glass);
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 0.5px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--specular), 0 4px 14px rgb(0 0 0 / 0.08);
+  }
+
+  .sections a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .sections a:focus-visible { border-radius: 999px; }
+
+  .sections a:hover { color: var(--text); background: var(--chip-bg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill:hover { transform: none; }
+  }
+
+  @media (max-width: 640px) {
+    .hero :global(.hero-card) {
+      flex-direction: column;
+      text-align: center;
+      gap: 18px;
+      padding: 28px 20px;
+    }
+    .avatar { width: 96px; height: 96px; }
+    .initials { font-size: 34px; }
+    .links { justify-content: center; }
+    .sections { border-radius: 22px; }
+    .sections a { padding: 0 11px; font-size: 14px; }
+  }
+</style>

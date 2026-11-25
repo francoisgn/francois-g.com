@@ -11,13 +11,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-francoisgn-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/francoisgn)
 
-> The personal showcase site of François G.: profile (LinkedIn, GitHub), App Store apps and open-source projects,
-> as cards with technology chips, descriptions and links. Static, fast, served by GitHub Pages on
+> The personal showcase site of François G.: profile (LinkedIn, GitHub), the Belayline harness every project is
+> built with, the SwiftHFR rewrite he leads, his ArtCraft Crafting Apps contributions, his App Store app and other
+> open-source projects, as cards with images, technology chips, descriptions and links. Static, fast, served by GitHub Pages on
 > [francois-g.com](https://francois-g.com).
 
 **TL;DR**: an Astro static site, designed in the Liquid Glass spirit (Apple system fonts, glass cards, subtle
-gradients), built and deployed by CI from `main`. Nothing runs on a home server. Status: **bootstrap**; see the
-[issues](https://github.com/francoisgn/francois-g.com/issues).
+gradients), built and deployed by CI from `main`. Nothing runs on a home server. Status: **v1** (one page: profile,
+Belayline, SwiftHFR, ArtCraft Crafting Apps, App Store app, other projects); see the [issues](https://github.com/francoisgn/francois-g.com/issues).
+
+![The site in light mode, desktop width](docs/screenshots/desktop-light.jpg)
 
 ## Architecture
 
@@ -33,10 +36,16 @@ gradients), built and deployed by CI from `main`. Nothing runs on a home server.
 
 | Path | Role |
 |---|---|
-| `src/pages/` | Pages (home: profile, apps, open source) |
-| `src/components/` | Glass cards, chips, header |
-| `src/data/` | Projects and profile data (typed) |
-| `public/` | Static files, `CNAME` (custom domain) |
+| `src/pages/cv/index.astro` | Unlisted CV page (`noindex`, out of the sitemap, not linked unless `cv.linkedFromHome`), with print styles for the PDF |
+| `src/pages/index.astro` | The one page: header, Belayline (featured), SwiftHFR, ArtCraft Crafting Apps, App Store app, other projects, footer |
+| `src/layouts/Layout.astro` | Page shell: meta (Open Graph, Twitter), favicon, skip link |
+| `src/components/` | `GlassCard`, `Chip`, `Header`, `FeaturedCard` (harness), `LeadCard` (project led, stat tiles), `CraftCard` (one Crafting App), `AppCard` (with App Store renders), `ProjectCard`, `Shot` (sized, lazy image), `Stars`, `Footer`, `Icon` (inline SVG) |
+| `src/styles/global.css` | Liquid Glass tokens (colours, glass, shadows), light and dark |
+| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `projects.ts` (`belayline`, `swiftHfr`, `craft`, `projects`); the sources of every figure are noted next to it |
+| `scripts/cv-pdf.sh` | Renders `/cv/` to `public/cv/francois-guillon-cv.pdf` (A4, headless Chrome); `--check` (pre-commit, CI) fails when the PDF is older than its inputs |
+| `src/lib/stars.ts` | GitHub stars fetched at build time; any API error keeps the static fallback |
+| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icon and App Store renders (`apps/`), project images (`projects/`, WebP) |
+| `docs/screenshots/` | Desktop and mobile, light and dark; the CV page (`cv-*.jpg`) |
 | `Dockerfile`, `compose.yaml` | Dev and test container (`docker compose up dev`) |
 | `.github/workflows/ci.yml` | pre-commit, `astro check`, build, gitleaks; deploy to Pages from `main` |
 
@@ -57,6 +66,18 @@ docker compose up dev              # hot reload on http://localhost:4321
 docker compose run --rm check      # astro check + build, as CI
 ```
 
+## Editing the content
+
+Everything shown comes from `src/data/`; an unset link is not rendered. Adding the next ArtCraft app is one entry
+in `craft.apps` (`src/data/projects.ts`); images go to `public/projects/` as WebP with their `width` and `height`. Star counts are fetched from the GitHub REST API at build
+time, without a token; when the API fails or is rate-limited, the `stars` value of `projects.ts` is used and the
+build goes on. Set `GITHUB_API_URL` to an unreachable URL to try that path.
+
+The CV lives in `src/data/cv.ts` (never an address, phone number or email: LinkedIn and GitHub only). After any change
+to it or to its page, run `scripts/cv-pdf.sh` (needs Chrome and python3) and commit the regenerated PDF and
+`scripts/cv-pdf.sha256`; the `cv-pdf` pre-commit hook, replayed in CI, fails otherwise. To list the CV on the home
+page, set `linkedFromHome: true`.
+
 ## Development
 
 ```sh
@@ -70,7 +91,8 @@ Coding agents follow [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) and the
 
 ## License
 
-Code: [MIT](LICENSE). Personal content (texts, photo, logos of the projects) is not covered by the licence. The vendored
+Code: [MIT](LICENSE). Personal content (texts, photo, logos and images of the projects) is not covered by the licence;
+the LightCraft and PdfCraft screenshots come from the storytold repositories (MIT OR Apache-2.0). The vendored
 harness files in `.harness/` carry Belayline's own MIT licence.
 
 ## Support

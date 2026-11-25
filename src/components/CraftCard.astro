@@ -1,0 +1,111 @@
+---
+// One Crafting App of ArtCraft: screenshot, name (links to the upstream repository; the whole card is the target),
+// the maintainer's part (badge + line), description, technologies.
+import GlassCard from './GlassCard.astro';
+import Chip from './Chip.astro';
+import Icon from './Icon.astro';
+import Shot from './Shot.astro';
+import type { CraftApp } from '../data/projects';
+
+interface Props {
+  app: CraftApp;
+}
+
+const { app } = Astro.props;
+const url = `https://github.com/${app.repo}`;
+const id = `craft-${app.name.toLowerCase()}`;
+const badge = app.status === 'contributor' ? 'Contributor' : 'In progress';
+---
+<GlassCard as="article" interactive class="craft-card" aria-labelledby={id}>
+  {app.visual && <Shot visual={app.visual} />}
+  <div class="top">
+    <h3 id={id}>
+      <a class="stretched" href={url} target="_blank" rel="noopener">
+        {app.name}
+        <span class="visually-hidden">on GitHub (opens in a new tab)</span>
+      </a>
+    </h3>
+    <Chip label={badge} variant="accent" />
+  </div>
+  <p class="mine">{app.contribution}</p>
+  <p class="desc">{app.description}</p>
+  <ul class="tech" aria-label="Technologies">
+    {app.tech.map((t) => <li><Chip label={t} variant="tech" /></li>)}
+  </ul>
+  <p class="repo" aria-hidden="true">
+    <Icon name="github" size={15} />
+    <span>{app.repo}</span>
+    <Icon name="arrow" size={14} />
+  </p>
+</GlassCard>
+
+<style>
+  :global(.craft-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 16px 24px;
+  }
+
+  .top, .mine, .desc, .tech, .repo { margin-inline: 10px; }
+
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 12px;
+    margin-top: 8px;
+  }
+
+  h3 { font-size: 1.45rem; font-weight: 700; }
+
+  .stretched { color: var(--text); text-decoration: none; }
+
+  .stretched::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius-card);
+  }
+
+  .stretched:focus-visible { outline: none; }
+  .stretched:focus-visible::after { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+  .mine {
+    margin-top: -4px;
+    margin-bottom: 0;
+    font-family: var(--font-rounded);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .desc { margin-top: 0; margin-bottom: 0; color: var(--text-2); font-size: 16px; flex: 1; }
+
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .repo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    margin-bottom: 0;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--chip-border);
+    font-family: var(--font-rounded);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+
+  .repo span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
