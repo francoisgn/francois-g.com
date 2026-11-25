@@ -29,7 +29,7 @@ export const profile: Profile = {
   name: 'François G.',
   initials: 'FG',
   bio: [
-    'Platform manager by day: multicloud PaaS on AWS, GCP and Alibaba Cloud, cloud transformation, FinOps.',
+    'Group Cloud Platform Manager at Valeo by day: multicloud PaaS on AWS, GCP and Alibaba Cloud, cloud transformation, FinOps.',
     'Side projects by night: agentic engineering, native apps, open source.',
   ],
   // Memoji supplied by the maintainer (2026-11-25): square crop on the head and shoulders, WebP, metadata stripped.

@@ -41,7 +41,8 @@ A visual change is checked by looking at it: desktop and mobile widths, light an
 - **Personal data**: only what the maintainer chose to publish (name, public profiles, public projects). No email
   address in clear, no phone, no home IP or hostname. The full name appears only on the unlisted `/cv/` page and its
   PDF (`src/data/cv.ts`, contact = LinkedIn and GitHub) and in the PDF's file name (`francois-guillon-cv.pdf`, as
-  a recruiter expects); the home page says "François G.".
+  a recruiter expects); the home page says "François G.". Employer (Valeo) and education (HEC) may be named on
+  public pages: the maintainer publishes them on LinkedIn (decision 2026-11-25).
 - **DNS and network changes** (Gandi records, UniFi, NAS) are never applied by an agent without the maintainer's
   explicit yes in the session; Gandi API tokens live in the macOS Keychain only.
 - **Language**: English for code, docs and commits; site content in English with a French version when added.
