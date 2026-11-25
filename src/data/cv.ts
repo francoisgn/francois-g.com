@@ -1,6 +1,7 @@
 // CV shown on the unlisted page /cv/ and rendered to its PDF (scripts/cv-pdf.sh). Wording from the maintainer's
 // 2026 resume (PDF export), with light fixes only: obvious typos and PDF-extraction hyphens, "12+" → "15+ years"
-// (maintainer, 2026-11-25), "(en cours)" → "(in progress)".
+// (maintainer, 2026-11-25), "(en cours)" → "(in progress)", the two Worldline leadership programmes grouped
+// (maintainer, 2026-11-25).
 // PRIVACY (CLAUDE.md, "Personal data"): no postal address, phone number or email here, ever. Contact = LinkedIn and
 // GitHub only. The full name appears on this page and its PDF only; the landing page stays "François G.".
 
@@ -29,7 +30,8 @@ export interface Role {
 export interface Education {
   year: string;
   title: string;
-  detail?: string;
+  /** Lines under the title (programme, modules). */
+  details?: string[];
 }
 
 export interface Cv {
@@ -283,17 +285,15 @@ export const cv: Cv = {
     {
       year: '2026–2027',
       title: 'HEC Paris Executive Education - Strategie@HEC (in progress)',
-      detail: 'RS5539. Strategic management, organizational governance, executive leadership.',
+      details: ['RS5539. Strategic management, organizational governance, executive leadership.'],
     },
     {
-      year: '2022',
-      title: 'HEC Paris Executive Education - Worldline leadership cursus',
-      detail: 'Boost your mindset, boost your organization – short program',
-    },
-    {
-      year: '2021',
-      title: 'HEC Paris Executive Education - Worldline leadership cursus',
-      detail: 'Influence Transversale – short program',
+      year: '2021–2022',
+      title: 'HEC Paris Executive Education, Worldline leadership track (selected participant)',
+      details: [
+        '"Influence transversale" (4-day short program, 2021)',
+        '"Boost your mindset, boost your organization" (custom program, 2022)',
+      ],
     },
     {
       year: '2009',
