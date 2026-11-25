@@ -113,7 +113,7 @@ export const swiftHfr: Lead = {
   ],
   notes: [
     'Free, non-commercial (PolyForm Noncommercial) and built by volunteers.',
-    'Not on the App Store yet: milestones M1 (MVP) and M2 are done, the first TestFlight build is next.',
+    'Not on the App Store yet: every lot of milestones M1 (MVP) and M2 is merged, the first TestFlight build is next.',
   ],
   tech: ['Swift', 'SwiftUI', 'Swift Testing', 'iOS'],
   visual: {

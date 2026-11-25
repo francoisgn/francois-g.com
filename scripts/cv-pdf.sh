@@ -4,8 +4,10 @@
 # Usage:
 #   scripts/cv-pdf.sh           build, render public/cv/francois-guillon-cv.pdf, record the inputs' hash
 #   scripts/cv-pdf.sh --check   fail if the PDF is older than its inputs (hash mismatch); run by pre-commit and CI
+# Env: CV_PDF_PORT (default 4331), the local port of the static server; CHROME, the browser binary.
 # Needs: npm, python3 (static server), Google Chrome or Chromium (CHROME=/path/to/chrome to override), shasum (macOS) or sha256sum (Linux).
-# The PDF's metadata come from Chrome: Title = the page <title> (full name + "CV"), no author, no address/phone/email.
+# The PDF's metadata come from Chrome: Title = the page <title> (full name + "CV"), no author, no address/phone/email;
+# Creator = Chrome's user agent (browser version and OS family), CreationDate = the render time.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -60,16 +62,25 @@ spin() { # spin <message> <command…>: runs the command with a spinner on a TTY
 
 spin "Build the site" npm run build --silent
 
+# Port taken by something else: the PDF would be printed from that server's page.
+if curl -s -o /dev/null --max-time 2 "http://127.0.0.1:$PORT/"; then ko "port $PORT is in use: set CV_PDF_PORT"; fi
 # python3's static server rather than `astro preview`, which runs as a single shared daemon in Astro 7.
 python3 -m http.server "$PORT" --bind 127.0.0.1 --directory dist >/dev/null 2>&1 &
 PREVIEW=$!
 PROFILE="$(mktemp -d)"
-trap 'kill "$PREVIEW" 2>/dev/null && wait "$PREVIEW" 2>/dev/null; rm -rf "$PROFILE"' EXIT
+cleanup() { # keeps the script's exit status (the killed server's 143 must not replace it)
+  local st=$?
+  if kill "$PREVIEW" 2>/dev/null; then wait "$PREVIEW" 2>/dev/null || true; fi
+  rm -rf "$PROFILE"
+  exit "$st"
+}
+trap cleanup EXIT
 for _ in $(seq 1 50); do
   curl -fsS -o /dev/null "http://127.0.0.1:$PORT/cv/" 2>/dev/null && break
   sleep 0.2
 done
 curl -fsS -o /dev/null "http://127.0.0.1:$PORT/cv/" || ko "the static server did not answer on port $PORT"
+kill -0 "$PREVIEW" 2>/dev/null || ko "the static server exited (port $PORT)"
 
 mkdir -p "$(dirname "$PDF")"
 spin "Render $PDF" "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer --run-all-compositor-stages-before-draw \

@@ -23,14 +23,14 @@ const id = `lead-${lead.name.toLowerCase()}`;
     </div>
     <p class="subtitle">{lead.subtitle}</p>
     <p class="desc">{lead.description}</p>
-    <dl class="facts">
+    <ul class="facts" aria-label="Key figures">
       {lead.facts.map((f) => (
-        <div class="fact">
-          <dt>{f.label}</dt>
-          <dd>{f.value}</dd>
-        </div>
+        <li class="fact">
+          <strong>{f.value}</strong>
+          <span>{f.label}</span>
+        </li>
       ))}
-    </dl>
+    </ul>
     <ul class="notes">
       {lead.notes.map((n) => <li>{n}</li>)}
     </ul>
@@ -71,18 +71,19 @@ const id = `lead-${lead.name.toLowerCase()}`;
 
   .desc { margin: 10px 0 18px; color: var(--text-2); }
 
-  /* Stat tiles: figure on top (dd, visually first), label below; dt stays first in the markup. */
+  /* Stat tiles: figure, then its label; read in order ("94 % of the commits on the branch"). */
   .facts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
     margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
   }
 
   .fact {
     display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
+    flex-direction: column;
     padding: 12px 14px;
     border-radius: 16px;
     background: var(--chip-bg);
@@ -90,8 +91,7 @@ const id = `lead-${lead.name.toLowerCase()}`;
     box-shadow: inset 0 1px 0 var(--specular);
   }
 
-  dd {
-    margin: 0;
+  .fact strong {
     font-family: var(--font-rounded);
     font-size: 1.6rem;
     font-weight: 700;
@@ -99,7 +99,7 @@ const id = `lead-${lead.name.toLowerCase()}`;
     font-variant-numeric: tabular-nums;
   }
 
-  dt { margin-top: 2px; font-size: 14px; color: var(--text-2); line-height: 1.3; }
+  .fact span { margin-top: 2px; font-size: 14px; color: var(--text-2); line-height: 1.3; }
 
   .notes {
     margin: 0 0 16px;
