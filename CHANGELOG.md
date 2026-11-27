@@ -7,6 +7,9 @@ Notable changes, newest first. Entries accumulate under "Unreleased" until the f
 
 ### Added
 
+- SoHo Monitor in the apps section (#13), side by side with Crédit Immo: its Liquid Glass icon, light and dark, and
+  a mosaic of the app's own tiles (disk, Claude, CPU, memory); it leaves "Other projects". The section becomes "Apps"
+  and app links are optional (new `source` link) for an app that is not on the App Store.
 - Crédit Immo public pages (#11), in French: `/credit-immo/` (presentation, App Store renders), `/credit-immo/assistance/`
   (support, FAQ) and `/credit-immo/confidentialite/` (privacy policy), moved from the app's former GitHub Pages site;
   the app's Liquid Glass icon, light and dark, on the home page card too.
