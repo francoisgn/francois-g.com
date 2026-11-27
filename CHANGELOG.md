@@ -5,6 +5,12 @@ Notable changes, newest first. Entries accumulate under "Unreleased" until the f
 
 ## Unreleased
 
+### Added
+
+- Crédit Immo public pages (#11), in French: `/credit-immo/` (presentation, App Store renders), `/credit-immo/assistance/`
+  (support, FAQ) and `/credit-immo/confidentialite/` (privacy policy), moved from the app's former GitHub Pages site;
+  the app's Liquid Glass icon, light and dark, on the home page card too.
+
 ### Changed
 
 - Site content and structure (#3): bio (platform manager by day, side projects by night), LinkedIn link; sections
