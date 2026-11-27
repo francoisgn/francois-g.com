@@ -176,14 +176,6 @@ export const craft: CraftSuite = {
 // (`gh repo view <repo> --json description,primaryLanguage,repositoryTopics`, read 2026-11-24).
 export const projects: Project[] = [
   {
-    name: 'soho-monitor',
-    repo: 'francoisgn/soho-monitor',
-    description:
-      'Native macOS menu bar monitor for a small office: disk usage by your own categories, live CPU, memory and network, Synology, UniFi and Claude usage.',
-    tech: ['Swift', 'SwiftUI', 'macOS 26'],
-    stars: 0,
-  },
-  {
     name: 'seed-box',
     repo: 'francoisgn/seed-box',
     description:

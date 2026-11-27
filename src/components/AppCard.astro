@@ -1,6 +1,8 @@
 ---
-// App Store app: icon, platform, tagline, feature chips, then site / support / privacy and the App Store badge
-// (only when its URL is set), then a strip of App Store renders (scrolls on its own on a narrow screen).
+// App: icon, name, platform and tagline, feature chips, then the links it has (site, source, support, privacy) and the
+// App Store badge (only when its URL is set), then its visuals at the bottom of the card (aligned when two cards sit
+// side by side): a strip of App Store renders (scrolls on its own on a narrow screen) and/or a mosaic of the app's
+// tiles (each row at one height, filling the width: every item grows in proportion to its aspect ratio).
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
@@ -18,57 +20,85 @@ const lang = app.language ? ` (${app.language})` : '';
 const isInternal = (href: string) => href.startsWith('/');
 const links = [
   { label: 'Website', href: app.links.site, icon: 'globe' as const },
+  { label: 'Source', href: app.links.source, icon: 'github' as const },
   { label: 'Support', href: app.links.support, icon: 'support' as const },
   { label: 'Privacy', href: app.links.privacy, icon: 'shield' as const },
-];
+].filter((l): l is typeof l & { href: string } => Boolean(l.href));
+const hasShots = !!app.screenshots?.length;
+const hasTiles = !!app.tiles?.length;
 ---
 <GlassCard as="article" class="app-card" aria-labelledby={id}>
-  <picture>
-    {app.icon.srcDark && <source srcset={app.icon.srcDark} media="(prefers-color-scheme: dark)" />}
-    <img class="app-icon" src={app.icon.src} alt={app.icon.alt} width="96" height="96" decoding="async" />
-  </picture>
-  <div class="body">
-    <div class="title-row">
-      <h3 id={id}>{app.name}</h3>
-      <Chip label={app.platform} />
+  <div class="head">
+    <picture>
+      {app.icon.srcDark && <source srcset={app.icon.srcDark} media="(prefers-color-scheme: dark)" />}
+      <img class="app-icon" src={app.icon.src} alt={app.icon.alt} width="80" height="80" decoding="async" />
+    </picture>
+    <div>
+      <div class="title-row">
+        <h3 id={id}>{app.name}</h3>
+        <Chip label={app.platform} />
+      </div>
+      <p class="tagline">{app.tagline}</p>
     </div>
-    <p class="tagline">{app.tagline}</p>
-    <ul class="features" aria-label="Features">
-      {app.features.map((f) => <li><Chip label={f} /></li>)}
-    </ul>
-    <div class="actions">
-      {app.links.appStore && <AppStoreBadge href={app.links.appStore} />}
-      <ul class="links">
-        {links.map((l) => (
-          <li>
-            {isInternal(l.href) ? (
-              <a href={l.href} hreflang={app.language ? 'fr' : undefined}>
-                <Icon name={l.icon} size={16} />
-                {l.label}
-                {lang && <span class="visually-hidden">{lang}</span>}
-              </a>
-            ) : (
-              <a href={l.href} hreflang={app.language ? 'fr' : undefined} target="_blank" rel="noopener">
-                <Icon name={l.icon} size={16} />
-                {l.label}
-                <span class="visually-hidden">{lang} (opens in a new tab)</span>
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-    {app.language && <p class="note">The app and its site are in {app.language}.</p>}
-    {app.screenshots && app.screenshots.length > 0 && (
-      <ul class="shots" aria-label={`${app.name} on the App Store: screenshots`} tabindex="0">
-        {app.screenshots.map((s) => (
-          <li>
-            <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading="lazy" decoding="async" />
-          </li>
-        ))}
-      </ul>
-    )}
   </div>
+  <ul class="features" aria-label="Features">
+    {app.features.map((f) => <li><Chip label={f} /></li>)}
+  </ul>
+  <div class="actions">
+    {app.links.appStore && <AppStoreBadge href={app.links.appStore} />}
+    <ul class="links">
+      {links.map((l) => (
+        <li>
+          {isInternal(l.href) ? (
+            <a href={l.href} hreflang={app.language ? 'fr' : undefined}>
+              <Icon name={l.icon} size={16} />
+              {l.label}
+              {lang && <span class="visually-hidden">{lang}</span>}
+            </a>
+          ) : (
+            <a href={l.href} hreflang={app.language ? 'fr' : undefined} target="_blank" rel="noopener">
+              <Icon name={l.icon} size={16} />
+              {l.label}
+              <span class="visually-hidden">{lang} (opens in a new tab)</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+  {app.language && <p class="note">The app and its site are in {app.language}.</p>}
+  {(hasShots || hasTiles) && (
+    <div class="media">
+      {hasShots && (
+        <ul class="shots" aria-label={`${app.name} on the App Store: screenshots`} tabindex="0">
+          {app.screenshots!.map((s) => (
+            <li>
+              <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading="lazy" decoding="async" />
+            </li>
+          ))}
+        </ul>
+      )}
+      {hasTiles && (
+        <ul class="tiles" aria-label={`${app.name}: the app's cards`}>
+          {app.tiles!.map((row) => (
+            <li class="row">
+              {row.map((t) => (
+                <img
+                  src={t.src}
+                  alt={t.alt}
+                  width={t.width}
+                  height={t.height}
+                  style={`flex: ${(t.width / t.height).toFixed(4)} 1 0`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ))}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )}
 </GlassCard>
 
 <style>
@@ -76,35 +106,36 @@ const links = [
     /* Grid item: without this the screenshot strip would widen the card instead of scrolling. */
     min-width: 0;
     display: flex;
-    gap: 28px;
-    padding: 32px;
+    flex-direction: column;
+    padding: 28px;
   }
+
+  .head { display: flex; align-items: flex-start; gap: 20px; }
 
   picture { flex: none; display: block; }
 
   .app-icon {
     display: block;
-    flex: none;
-    width: 96px;
-    height: 96px;
+    width: 80px;
+    height: 80px;
     border-radius: 22.5%;
     box-shadow:
       0 0 0 0.5px rgb(0 0 0 / 0.12),
       0 10px 24px -8px rgb(0 0 0 / 0.35);
   }
 
-  .body { flex: 1; min-width: 0; }
+  .head > div { min-width: 0; }
 
   .title-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 6px 10px;
   }
 
   h3 { font-size: 1.6rem; font-weight: 700; }
 
-  .tagline { margin: 8px 0 16px; color: var(--text-2); }
+  .tagline { margin: 6px 0 0; color: var(--text-2); }
 
   .features, .links {
     display: flex;
@@ -115,12 +146,14 @@ const links = [
     list-style: none;
   }
 
+  .features { margin-top: 18px; }
+
   .actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 12px 20px;
-    margin-top: 22px;
+    margin-top: 20px;
   }
 
   .links { gap: 6px 18px; }
@@ -139,10 +172,13 @@ const links = [
 
   .note { margin: 14px 0 0; font-size: 14px; color: var(--text-2); }
 
+  /* Pushed to the bottom: side by side, the two cards' visuals start at the same height when their text differs. */
+  .media { margin-top: auto; padding-top: 22px; }
+
   .shots {
     display: flex;
     gap: 14px;
-    margin: 22px 0 0;
+    margin: 0;
     padding: 4px 2px 10px;
     list-style: none;
     overflow-x: auto;
@@ -165,9 +201,24 @@ const links = [
       0 10px 24px -12px rgb(0 0 0 / 0.45);
   }
 
+  .tiles {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tiles .row { display: flex; gap: 6px; }
+
+  /* The captures carry their own rounded, translucent edges (macOS window shadow included): no extra frame. */
+  .tiles img { display: block; min-width: 0; width: 100%; height: auto; }
+
   @media (max-width: 640px) {
-    :global(.app-card) { flex-direction: column; gap: 18px; padding: 24px 20px; }
-    .app-icon { width: 80px; height: 80px; }
+    :global(.app-card) { padding: 22px 18px; }
+    .head { gap: 16px; }
+    .app-icon { width: 64px; height: 64px; }
+    h3 { font-size: 1.4rem; }
     .shots img { width: 132px; }
   }
 </style>

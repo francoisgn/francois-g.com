@@ -18,7 +18,7 @@ const stars = await starsFor([belayline, craft, ...projects]);
 ---
 <Layout
   title="François G.: platform manager, agentic engineering, apps and open source"
-  description="François G., platform manager by day (multicloud PaaS, cloud transformation, FinOps). Side projects by night: the Belayline agentic harness, the SwiftHFR rewrite, ArtCraft's LightCraft and PdfCraft, the Crédit Immo app and more."
+  description="François G., platform manager by day (multicloud PaaS, cloud transformation, FinOps). Side projects by night: the Belayline agentic harness, the SwiftHFR rewrite, ArtCraft's LightCraft and PdfCraft, the Crédit Immo and SoHo Monitor apps and more."
 >
   <Header />
   <main id="main">
@@ -49,9 +49,9 @@ const stars = await starsFor([belayline, craft, ...projects]);
     </section>
 
     <section id="apps" aria-labelledby="apps-title">
-      <p class="eyebrow">Side project</p>
-      <h2 id="apps-title">On the App Store</h2>
-      <div class="stack">
+      <p class="eyebrow">Side projects</p>
+      <h2 id="apps-title">Apps</h2>
+      <div class="grid two">
         {apps.map((app) => <AppCard app={app} />)}
       </div>
     </section>
@@ -89,8 +89,6 @@ const stars = await starsFor([belayline, craft, ...projects]);
   .intro a { font-weight: 600; }
 
   .intro :global(.stars) { display: inline-flex; margin: 0 4px 0 2px; vertical-align: -1px; }
-
-  .stack { display: grid; gap: 20px; }
 
   .grid {
     display: grid;
