@@ -90,11 +90,12 @@ export const belayline: Harness = {
   stars: 5,
 };
 
-// Figures measured on ezzz/HFRnow, branch dev-swift at 98ae431e (2026-11-25): 147,671 lines in .swift files, 80,043
-// of them in test paths; 4,694 `@Test` functions; 591 of 629 commits by francoisgn; `gh search prs --author
-// francoisgn --repo ezzz/HFRnow --merged` → 530 (9 open). HFRKit products: HFRModels, HFRParsing, HFRNetwork,
-// HFRStorage, HFRClient. LICENSE: PolyForm Noncommercial 1.0.0. README: "No public build yet", M1 40/40 lots.
-// Visual: docs/assets/social-preview.png of dev-swift, converted to WebP.
+// Figures measured on ezzz/HFRnow, branch dev-swift at dca2318b (2026-11-27): 151,934 lines in .swift files, 83,275
+// of them in test paths; 4,877 `@Test` functions; 638 of 676 commits by francoisgn; `gh search prs --author
+// francoisgn --repo ezzz/HFRnow --merged` → 577 (8 open). HFRKit products: HFRModels, HFRParsing, HFRNetwork,
+// HFRStorage, HFRClient. LICENSE: PolyForm Noncommercial 1.0.0. README: "No public build yet. M1 (MVP), M2 (read &
+// reply) and M3 (engine) are complete; M4 (legacy parity, App Store) is at 81 %".
+// Visual: docs/assets/hero.jpg of dev-swift at 3f0d65cb (README hero, #1380, 2026-11-27), 1600 px wide WebP.
 export const swiftHfr: Lead = {
   name: 'SwiftHFR',
   subtitle: 'HFRnow, the iPhone app of the hardware.fr forum, rewritten in Swift',
@@ -107,21 +108,22 @@ export const swiftHfr: Lead = {
     'security pipeline (CI, CodeQL, dependency review, secret scanning, CodeRabbit).',
   facts: [
     { value: '~150k', label: 'lines of Swift, over half of them tests' },
-    { value: '4,600+', label: 'Swift Testing tests' },
-    { value: '500+', label: 'merged pull requests' },
+    { value: '4,800+', label: 'Swift Testing tests' },
+    { value: '550+', label: 'merged pull requests' },
     { value: '94 %', label: 'of the commits on the branch' },
   ],
   notes: [
     'Free, non-commercial (PolyForm Noncommercial) and built by volunteers.',
-    'Not on the App Store yet: every lot of milestones M1 (MVP) and M2 is merged, the first TestFlight build is next.',
+    'Not on the App Store yet: milestones M1 (MVP), M2 (read and reply) and M3 (engine) are complete, M4 (legacy ' +
+      'parity, App Store) is at 81 %; the first TestFlight build is next.',
   ],
   tech: ['Swift', 'SwiftUI', 'Swift Testing', 'iOS'],
   visual: {
     src: '/projects/swifthfr.webp',
-    alt: 'SwiftHFR, "The HFR forum, rebuilt native in Swift & SwiftUI": the old hardware.fr forum page flowing into ' +
-      'the new native Forums screen on an iPhone.',
-    width: 1280,
-    height: 640,
+    alt: 'SwiftHFR, "Same forum. Now native on iOS.": an iPhone lying on a printed page of the hardware.fr forum ' +
+      'shows the same categories as a native iOS list.',
+    width: 1600,
+    height: 800,
   },
 };
 
