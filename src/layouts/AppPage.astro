@@ -1,0 +1,97 @@
+---
+// Shell of an app's pages (src/pages/<app>/): page meta in the app's language, the app's page bar, the app's colours
+// as CSS custom properties on <main> (decoration: --app-from/--app-to; text: --app-text-from/--app-text-to, readable
+// shades in light and dark), footer. Shared prose styles for the long pages (support, privacy).
+import Layout from './Layout.astro';
+import AppPageNav from '../components/AppPageNav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'en' | 'fr';
+  /** Square app icon (apple-touch-icon of the page). */
+  icon: string;
+  nav: { label: string; pages: readonly { href: string; label: string }[] };
+  gradient: { from: string; to: string; text: { light: readonly string[]; dark: readonly string[] } };
+}
+
+const { title, description, lang, icon, nav, gradient: g } = Astro.props;
+const colors = [
+  `--app-from: ${g.from}`, `--app-to: ${g.to}`,
+  `--app-text-from-light: ${g.text.light[0]}`, `--app-text-to-light: ${g.text.light[1]}`,
+  `--app-text-from-dark: ${g.text.dark[0]}`, `--app-text-to-dark: ${g.text.dark[1]}`,
+].join('; ');
+---
+<Layout title={title} description={description} lang={lang} icon={icon}>
+  <AppPageNav pages={nav.pages} label={nav.label} />
+  <main id="main" class="app-page" style={colors}>
+    <slot />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .app-page {
+    --app-text-from: var(--app-text-from-light);
+    --app-text-to: var(--app-text-to-light);
+    display: grid;
+    gap: 48px;
+    padding: 28px 0 48px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .app-page {
+      --app-text-from: var(--app-text-from-dark);
+      --app-text-to: var(--app-text-to-dark);
+    }
+  }
+
+  /* The app's hues as text (eyebrows, lead lines) and as a short rule above card titles. */
+  .app-page :global(.app-text) {
+    background: linear-gradient(90deg, var(--app-text-from), var(--app-text-to));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .app-page :global(.app-rule)::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin-bottom: 12px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--app-from), var(--app-to));
+  }
+
+  .app-page :global(section) { min-width: 0; }
+
+  .app-page :global(h1) {
+    font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  .app-page :global(section > h2) {
+    margin: 0 0 18px 6px;
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2rem);
+    font-weight: 700;
+  }
+
+  .app-page :global(section > .eyebrow) { margin-left: 6px; }
+
+  /* Long text in glass cards (support, privacy): readable measure, quiet secondary colour. */
+  .app-page :global(.prose) { padding: 28px 32px; }
+  .app-page :global(.prose h3) { font-size: 1.15rem; font-weight: 700; }
+  .app-page :global(.prose p),
+  .app-page :global(.prose li) { max-width: 70ch; color: var(--text-2); }
+  .app-page :global(.prose p) { margin: 8px 0 0; }
+  .app-page :global(.prose ul) { margin: 8px 0 0; padding-left: 1.2em; }
+  .app-page :global(.prose li + li) { margin-top: 4px; }
+  .app-page :global(.prose strong) { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .app-page :global(.prose) { padding: 22px 20px; }
+  }
+</style>

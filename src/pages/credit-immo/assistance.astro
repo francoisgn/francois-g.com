@@ -1,0 +1,61 @@
+---
+// Crédit Immo: support page, in French (src/data/creditImmo.ts). Linked from App Store Connect as the app's support
+// URL: keep the path.
+import AppPage from '../../layouts/AppPage.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import Icon from '../../components/Icon.astro';
+import { creditImmo as ci } from '../../data/creditImmo';
+---
+<AppPage
+  title="Assistance : Crédit Immo"
+  description="Une question, un bug, une idée sur Crédit Immo ? Ouvrir une demande, et les réponses aux questions fréquentes."
+  lang="fr"
+  icon={ci.app.icon.src}
+  nav={{ label: 'Crédit Immo', pages: ci.pages }}
+  gradient={ci.gradient}
+>
+  <header class="head">
+    <p class="eyebrow app-text">{ci.app.name}</p>
+    <h1>Assistance</h1>
+  </header>
+
+  <section aria-labelledby="contact-title">
+    <GlassCard class="prose contact">
+      <h2 id="contact-title" class="app-rule">Une question, un bug, une idée ?</h2>
+      <p>Ouvrez une demande sur GitHub (compte GitHub gratuit nécessaire). Indiquez le modèle d’iPhone, la version d’iOS et la version de l’app (Réglages de l’app › Version).</p>
+      <p class="action"><a class="btn" href={ci.support.newIssue} target="_blank" rel="noopener"> <Icon name="support" size={16} /> Ouvrir une demande <span class="visually-hidden">(sur GitHub, s’ouvre dans un nouvel onglet)</span> </a></p>
+    </GlassCard>
+  </section>
+
+  <section aria-labelledby="faq-title">
+    <p class="eyebrow app-text">FAQ</p>
+    <h2 id="faq-title">Questions fréquentes</h2>
+    <ul class="faq">
+      {ci.support.faq.map((item) => (
+        <li><GlassCard class="prose"> <h3>{item.q}</h3> <p>{item.a}</p>
+            {'link' in item && item.link && <p><a href={item.link.href}>{item.link.label}</a></p>}
+          </GlassCard>
+        </li>
+      ))}
+    </ul>
+  </section>
+</AppPage>
+
+<style>
+  .head { padding: 0 6px; }
+
+  :global(.contact) h2 { margin: 0; font-size: 1.4rem; }
+
+  .action { margin-top: 18px !important; }
+
+  .faq {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq li { display: grid; }
+</style>

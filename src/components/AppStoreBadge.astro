@@ -1,0 +1,39 @@
+---
+// "Download on the App Store" badge, dark glass pill. `lang` switches the wording (French app pages).
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  lang?: 'en' | 'fr';
+}
+
+const { href, lang = 'en' } = Astro.props;
+const text = lang === 'fr'
+  ? { small: 'Télécharger dans', newTab: '(s’ouvre dans un nouvel onglet)' }
+  : { small: 'Download on the', newTab: '(opens in a new tab)' };
+---
+<a class="store" href={href} target="_blank" rel="noopener">
+  <Icon name="appstore" size={22} />
+  <span><small>{text.small}</small> App Store</span>
+  <span class="visually-hidden">{text.newTab}</span>
+</a>
+
+<style>
+  .store {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 6px 18px 6px 14px;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(180deg, #2c2c2e, #000);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 6px 16px -6px rgb(0 0 0 / 0.5);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.05;
+    text-decoration: none;
+  }
+
+  .store small { display: block; font-size: 11px; font-weight: 500; opacity: 0.9; }
+</style>
