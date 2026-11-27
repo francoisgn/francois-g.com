@@ -1,0 +1,86 @@
+---
+// Crédit Immo: privacy policy, in French. Text moved unchanged from the app's former site (ios-app_credit-immo-pub,
+// confidentialite.md, updated 11/11/2026). Linked from App Store Connect as the privacy policy URL: keep the path.
+// A change of substance updates the date below and the app's privacy answers in App Store Connect.
+import AppPage from '../../layouts/AppPage.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import { creditImmo as ci } from '../../data/creditImmo';
+
+const updated = '11 novembre 2026';
+---
+<AppPage
+  title="Politique de confidentialité : Crédit Immo"
+  description="Crédit Immo ne collecte aucune donnée personnelle : pas de compte, pas de publicité, pas de traceur. Vos simulations restent sur votre iPhone ou dans votre iCloud privé."
+  lang="fr"
+  icon={ci.app.icon.touch ?? ci.app.icon.src}
+  nav={{ label: 'Crédit Immo', pages: ci.pages }}
+  gradient={ci.gradient}
+>
+  <header class="head">
+    <p class="eyebrow app-text">{ci.app.name}</p>
+    <h1>Politique de confidentialité</h1>
+    <p class="date">Dernière mise à jour : {updated}</p>
+  </header>
+
+  <GlassCard as="article" class="prose policy">
+    <p>Crédit Immo (« l’app ») est une application iPhone de simulation de crédit immobilier, éditée par François Guillon, développeur indépendant (« nous »).</p>
+
+    <h2 class="app-rule">En bref</h2>
+    <ul>
+      <li><strong>Aucun compte</strong>, aucune publicité, aucun traceur, aucune mesure d’audience.</li>
+      <li><strong>Nous ne recevons aucune de vos données</strong> : vos simulations restent sur votre iPhone ou dans votre iCloud privé.</li>
+      <li>Une seule fonction envoie des données hors de l’iPhone : le <strong>calcul de salaire en ligne</strong> (onglet Revenus), qui transmet des paramètres de paie, <strong>sans identité</strong>, à l’API publique de l’URSSAF.</li>
+    </ul>
+
+    <h2 class="app-rule">Données que vous saisissez</h2>
+    <p>Montants, durées, taux, revenus, crédits en cours, noms de vos simulations : ces données sont <strong>enregistrées uniquement sur votre appareil</strong>. Elles ne nous sont jamais transmises.</p>
+
+    <h2 class="app-rule">Synchronisation iCloud (facultative)</h2>
+    <p>Si la synchronisation iCloud est activée (Réglages de l’app), vos simulations sont copiées dans la <strong>base CloudKit privée de votre compte iCloud</strong>, gérée par Apple. Nous n’y avons pas accès. Vous pouvez désactiver la synchronisation à tout moment dans les Réglages de l’app. Voir la <a href="https://www.apple.com/fr/legal/privacy/fr-ww/" hreflang="fr">politique de confidentialité d’Apple</a>.</p>
+
+    <h2 class="app-rule">Calcul du salaire en ligne (URSSAF)</h2>
+    <p>Pour convertir un salaire brut en net, l’app peut interroger l’API publique <strong>mon-entreprise</strong> de l’URSSAF (<code>mon-entreprise.urssaf.fr</code>). Sont transmis uniquement : le salaire brut, la prime ou part variable, le statut (cadre, dirigeant), la mutuelle, la méthode de prélèvement à la source et, le cas échéant, votre taux personnalisé. <strong>Aucune donnée d’identité</strong> (nom, adresse, numéro de sécurité sociale…) n’est envoyée. Comme pour toute connexion internet, le serveur de l’URSSAF voit l’adresse IP de la requête. Nous ne conservons pas ces données. Un moteur de calcul hors ligne équivalent est aussi disponible. Voir les <a href="https://mon-entreprise.urssaf.fr/" hreflang="fr">mentions de mon-entreprise</a>.</p>
+
+    <h2 class="app-rule">Achats intégrés (packs d’icônes)</h2>
+    <p>Les achats sont traités par <strong>Apple</strong> (App Store). Nous ne recevons ni vos coordonnées ni vos données de paiement. L’app vérifie seulement auprès d’Apple quels packs vous avez achetés.</p>
+
+    <h2 class="app-rule">Demande d’avis</h2>
+    <p>L’app peut afficher la demande de note standard d’iOS. Elle est gérée par Apple, et vous pouvez la désactiver dans les réglages d’iOS.</p>
+
+    <h2 class="app-rule">Préférences locales</h2>
+    <p>L’app enregistre sur l’appareil quelques préférences (thème, dernier onglet saisi, nombre de lancements pour espacer les invitations). Elles ne quittent pas l’appareil.</p>
+
+    <h2 class="app-rule">Ce que l’app ne fait pas</h2>
+    <p>Pas de compte, pas de publicité, pas de suivi entre apps ou sites (App Tracking Transparency), pas d’outil d’analyse ou de mesure d’audience, pas de vente ni de partage de données.</p>
+
+    <h2 class="app-rule">Conservation et suppression</h2>
+    <p>Vos données sont conservées tant que vous les gardez : supprimez une simulation dans l’app, désactivez iCloud, ou désinstallez l’app pour tout effacer de l’appareil. Les données iCloud se suppriment depuis les réglages iCloud d’iOS (Gérer le stockage).</p>
+
+    <h2 class="app-rule">Vos droits</h2>
+    <p>Comme nous ne détenons aucune donnée personnelle vous concernant, nous ne pouvons ni y accéder ni les modifier. Pour les données iCloud, adressez-vous à Apple. Vous pouvez introduire une réclamation auprès de la <a href="https://www.cnil.fr/" hreflang="fr">CNIL</a>.</p>
+
+    <h2 class="app-rule">Enfants</h2>
+    <p>L’app ne s’adresse pas spécifiquement aux enfants et ne collecte aucune donnée les concernant.</p>
+
+    <h2 class="app-rule">Modifications</h2>
+    <p>Toute modification de cette politique sera publiée sur cette page, avec sa date de mise à jour.</p>
+
+    <h2 class="app-rule">Contact</h2>
+    <p>Une question sur cette politique : voir la page <a href={ci.pages[1].href}>Assistance</a>.</p>
+  </GlassCard>
+</AppPage>
+
+<style>
+  .head { padding: 0 6px; }
+
+  .date { margin: 10px 0 0; color: var(--text-2); font-size: 15px; }
+
+  :global(.policy) h2 {
+    margin: 32px 0 0;
+    font-size: 1.25rem;
+  }
+
+  :global(.policy) > p:first-child { margin-top: 0; }
+
+  :global(.policy) code { font-size: 0.92em; }
+</style>

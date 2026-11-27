@@ -1,0 +1,164 @@
+---
+// Crédit Immo: presentation page, in French like the app (src/data/creditImmo.ts). Linked from App Store Connect as
+// the app's marketing URL: keep the path.
+import AppPage from '../../layouts/AppPage.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import Chip from '../../components/Chip.astro';
+import AppStoreBadge from '../../components/AppStoreBadge.astro';
+import { creditImmo as ci } from '../../data/creditImmo';
+
+const { app } = ci;
+---
+<AppPage
+  title={ci.title}
+  description={ci.description}
+  lang="fr"
+  icon={app.icon.touch ?? app.icon.src}
+  nav={{ label: 'Crédit Immo', pages: ci.pages }}
+  gradient={ci.gradient}
+>
+  <GlassCard as="header" class="ci-hero">
+    <picture>
+      {app.icon.srcDark && <source srcset={app.icon.srcDark} media="(prefers-color-scheme: dark)" />}
+      <img class="icon" src={app.icon.src} alt="Icône de Crédit Immo" width="128" height="128" fetchpriority="high" />
+    </picture>
+    <div class="hero-text">
+      <p class="eyebrow app-text">{app.name} · {app.platform}</p>
+      <h1>{ci.hero.title}</h1>
+      <p class="lead app-text">{ci.hero.lead}</p>
+      <p>{ci.hero.text}</p>
+      <ul class="facts" aria-label="En bref">
+        {ci.hero.facts.map((f) => <li><Chip label={f} /></li>)}
+      </ul>
+      {app.links.appStore && <div class="cta"><AppStoreBadge href={app.links.appStore} lang="fr" /></div>}
+    </div>
+  </GlassCard>
+
+  <section aria-labelledby="shots-title">
+    <h2 id="shots-title" class="visually-hidden">Captures de l’app</h2>
+    <ul class="shots" aria-label="Crédit Immo sur l’App Store : captures" tabindex="0">
+      {ci.screenshots.map((s, i) => (
+        <li>
+          <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby="features-title">
+    <p class="eyebrow app-text">Fonctions</p>
+    <h2 id="features-title">Tout ce que votre banque calcule</h2>
+    <ul class="features">
+      {ci.features.map((f) => (
+        <li>
+          <GlassCard class="ci-feature">
+            <h3 class="app-rule">{f.title}</h3>
+            <p>{f.text}</p>
+          </GlassCard>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <p class="disclaimer">{ci.disclaimer}</p>
+</AppPage>
+
+<style>
+  :global(.ci-hero) {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 36px;
+  }
+
+  picture { flex: none; display: block; }
+
+  .icon {
+    display: block;
+    width: 128px;
+    height: 128px;
+    border-radius: 22.5%;
+    box-shadow:
+      0 0 0 0.5px rgb(0 0 0 / 0.12),
+      0 14px 32px -10px color-mix(in srgb, var(--app-from) 55%, transparent);
+  }
+
+  .hero-text { min-width: 0; }
+
+  .lead {
+    margin: 10px 0 14px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .hero-text > p:not(.eyebrow, .lead) { margin: 0; max-width: 62ch; color: var(--text-2); }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cta { margin-top: 22px; }
+
+  .shots {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 4px 6px 12px;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .shots li { flex: none; scroll-snap-align: start; }
+
+  .shots img {
+    display: block;
+    width: 200px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow:
+      0 0 0 0.5px var(--glass-edge),
+      0 14px 30px -14px rgb(0 0 0 / 0.45);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .features li { display: grid; }
+
+  :global(.ci-feature) { padding: 22px 24px; }
+
+  :global(.ci-feature) h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  :global(.ci-feature) p { margin: 6px 0 0; color: var(--text-2); }
+
+  .disclaimer {
+    margin: 0 auto;
+    max-width: 62ch;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-2);
+  }
+
+  @media (max-width: 640px) {
+    :global(.ci-hero) { flex-direction: column; gap: 20px; padding: 26px 22px; }
+    .icon { width: 96px; height: 96px; }
+    .shots img { width: 160px; }
+  }
+</style>

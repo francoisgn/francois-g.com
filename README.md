@@ -37,15 +37,17 @@ Belayline, SwiftHFR, ArtCraft Crafting Apps, App Store app, other projects); see
 | Path | Role |
 |---|---|
 | `src/pages/cv/index.astro` | Unlisted CV page (`noindex`, out of the sitemap, not linked unless `cv.linkedFromHome`), with print styles for the PDF |
-| `src/pages/index.astro` | The one page: header, Belayline (featured), SwiftHFR, ArtCraft Crafting Apps, App Store app, other projects, footer |
-| `src/layouts/Layout.astro` | Page shell: meta (Open Graph, Twitter), favicon, skip link |
-| `src/components/` | `GlassCard`, `Chip`, `Header`, `FeaturedCard` (harness), `LeadCard` (project led, stat tiles), `CraftCard` (one Crafting App), `AppCard` (with App Store renders), `ProjectCard`, `Shot` (sized, lazy image), `Stars`, `Footer`, `Icon` (inline SVG) |
+| `src/pages/index.astro` | The home page: header, Belayline (featured), SwiftHFR, ArtCraft Crafting Apps, App Store app, other projects, footer |
+| `src/pages/credit-immo/` | The Crédit Immo app's public pages, in French: presentation, `assistance/`, `confidentialite/`; App Store Connect links to them (keep the paths) |
+| `src/layouts/Layout.astro` | Page shell: meta (Open Graph, Twitter), language, favicon, skip link |
+| `src/layouts/AppPage.astro` | Shell of an app's pages: page bar (`AppPageNav`), the app's colours, prose styles |
+| `src/components/` | `GlassCard`, `Chip`, `Header`, `FeaturedCard` (harness), `LeadCard` (project led, stat tiles), `CraftCard` (one Crafting App), `AppCard` (with App Store renders), `AppStoreBadge`, `AppPageNav`, `ProjectCard`, `Shot` (sized, lazy image), `Stars`, `Footer`, `Icon` (inline SVG) |
 | `src/styles/global.css` | Liquid Glass tokens (colours, glass, shadows), light and dark |
-| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `projects.ts` (`belayline`, `swiftHfr`, `craft`, `projects`); the sources of every figure are noted next to it |
+| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `creditImmo.ts` (the app's pages), `projects.ts` (`belayline`, `swiftHfr`, `craft`, `projects`); the sources of every figure are noted next to it |
 | `scripts/cv-pdf.sh` | Renders `/cv/` to `public/cv/francois-guillon-cv.pdf` (A4, headless Chrome); `--check` (pre-commit, CI) fails when the PDF is older than its inputs |
 | `src/lib/stars.ts` | GitHub stars fetched at build time; any API error keeps the static fallback |
 | `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icon and App Store renders (`apps/`), project images (`projects/`, WebP) |
-| `docs/screenshots/` | Desktop and mobile, light and dark; the CV page (`cv-*.jpg`) |
+| `docs/screenshots/` | Desktop and mobile, light and dark; the CV page (`cv-*.jpg`); the Crédit Immo pages (`credit-immo-*.jpg`) |
 | `Dockerfile`, `compose.yaml` | Dev and test container (`docker compose up dev`) |
 | `.github/workflows/ci.yml` | pre-commit, `astro check`, build, gitleaks; deploy to Pages from `main` |
 

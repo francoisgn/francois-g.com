@@ -1,0 +1,82 @@
+---
+// Bar of an app's pages: back to the home page, then the app's pages as glass pills (current one marked).
+import { profile } from '../data/profile';
+
+interface Props {
+  pages: readonly { href: string; label: string }[];
+  /** Accessible name of the navigation. */
+  label: string;
+}
+
+const { pages, label } = Astro.props;
+const here = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href.replace(/\/$/, '') || '/') === here;
+---
+<nav class="bar" aria-label={label}>
+  <a class="btn" href="/" hreflang="en"><span aria-hidden="true">←</span> {profile.name}</a>
+  <ul>
+    {pages.map((p) => (
+      <li>
+        <a class:list={['tab', { current: isCurrent(p.href) }]} href={p.href} aria-current={isCurrent(p.href) ? 'page' : undefined}>
+          {p.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    list-style: none;
+    border-radius: 999px;
+    background: var(--glass);
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--specular), var(--shadow);
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .tab:hover { color: var(--text); }
+
+  .tab.current {
+    color: var(--text);
+    background: var(--chip-bg);
+    box-shadow: inset 0 1px 0 var(--specular), 0 0 0 0.5px var(--chip-border), 0 2px 8px rgb(0 0 0 / 0.08);
+  }
+
+  .tab:focus-visible { border-radius: 999px; }
+
+  /* Narrow screens: the pills share one full-width row under the back button. */
+  @media (max-width: 480px) {
+    .bar { justify-content: center; }
+    ul { flex-wrap: nowrap; width: 100%; }
+    li { flex: 1 1 auto; }
+    .tab { justify-content: center; width: 100%; padding: 0 6px; font-size: 14px; }
+  }
+</style>

@@ -1,7 +1,7 @@
-// App Store apps. Feature list taken from the app's public site (francoisgn/ios-app_credit-immo-pub, index.md).
+// App Store apps. Each app's public pages (presentation, support, privacy) live on this site, under /<app>/.
 
 export interface AppLinks {
-  /** Public site of the app. */
+  /** Public site of the app (a page of this site, or an external URL). */
   site: string;
   support: string;
   privacy: string;
@@ -16,13 +16,15 @@ export interface App {
   features: string[];
   /** Language of the app's own site and UI, when it is not English. */
   language?: string;
-  icon: { src: string; alt: string };
+  /** App icon, light; `srcDark` is the dark appearance of the same icon, when the app has one. */
+  icon: { src: string; srcDark?: string; alt: string; /** Opaque square, 180 px, for apple-touch-icon (iOS masks it). */ touch?: string };
   /** App Store marketing renders shown as a strip; each has its intrinsic size (avoids layout shift). */
   screenshots?: { src: string; alt: string; width: number; height: number }[];
   links: AppLinks;
 }
 
-const creditImmoSite = 'https://francoisgn.github.io/ios-app_credit-immo-pub/';
+// Pages of this site (src/pages/credit-immo/), linked from App Store Connect (support, privacy, marketing URLs).
+const creditImmoSite = '/credit-immo/';
 
 export const apps: App[] = [
   {
@@ -39,7 +41,15 @@ export const apps: App[] = [
       'Loan buyback',
     ],
     language: 'French',
-    icon: { src: '/apps/credit-immo.png', alt: 'Crédit Immo app icon' },
+    // Liquid Glass icon rendered by Icon Composer's ictool (ios-app_credit-immo, CreditImmo/AppIcon.icon), 256 px.
+    // touch: the app's flat icon (ios-app_credit-immo, design/icons/AppIcon.svg), opaque: transparent corners would
+    // turn black on an iOS home screen.
+    icon: {
+      src: '/apps/credit-immo.png',
+      srcDark: '/apps/credit-immo-dark.png',
+      touch: '/apps/credit-immo-touch.png',
+      alt: 'Crédit Immo app icon',
+    },
     // App Store renders 1.1.0 (ios-app_credit-immo, build/appstore/archive/visuels-1.1.0/rendus/iphone/, already
     // public on the App Store), resized to 360 px wide WebP. Alt texts translate the French headline of each render.
     screenshots: [
@@ -70,8 +80,8 @@ export const apps: App[] = [
     ],
     links: {
       site: creditImmoSite,
-      support: `${creditImmoSite}assistance`,
-      privacy: `${creditImmoSite}confidentialite`,
+      support: `${creditImmoSite}assistance/`,
+      privacy: `${creditImmoSite}confidentialite/`,
       appStore: 'https://apps.apple.com/fr/app/credit-immobilier/id6833368341',
     },
   },
