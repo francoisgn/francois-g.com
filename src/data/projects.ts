@@ -94,7 +94,7 @@ export const belayline: Harness = {
 // of them in test paths; 4,694 `@Test` functions; 591 of 629 commits by francoisgn; `gh search prs --author
 // francoisgn --repo ezzz/HFRnow --merged` → 530 (9 open). HFRKit products: HFRModels, HFRParsing, HFRNetwork,
 // HFRStorage, HFRClient. LICENSE: PolyForm Noncommercial 1.0.0. README: "No public build yet", M1 40/40 lots.
-// Visual: docs/assets/social-preview.png of dev-swift, converted to WebP.
+// Visual: docs/assets/hero.jpg of dev-swift at 3f0d65cb (README hero, #1380, 2026-11-27), 1600 px wide WebP.
 export const swiftHfr: Lead = {
   name: 'SwiftHFR',
   subtitle: 'HFRnow, the iPhone app of the hardware.fr forum, rewritten in Swift',
@@ -118,10 +118,10 @@ export const swiftHfr: Lead = {
   tech: ['Swift', 'SwiftUI', 'Swift Testing', 'iOS'],
   visual: {
     src: '/projects/swifthfr.webp',
-    alt: 'SwiftHFR, "The HFR forum, rebuilt native in Swift & SwiftUI": the old hardware.fr forum page flowing into ' +
-      'the new native Forums screen on an iPhone.',
-    width: 1280,
-    height: 640,
+    alt: 'SwiftHFR, "Same forum. Now native on iOS.": an iPhone lying on a printed page of the hardware.fr forum ' +
+      'shows the same categories as a native iOS list.',
+    width: 1600,
+    height: 800,
   },
 };
 

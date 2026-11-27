@@ -5,6 +5,10 @@ Notable changes, newest first. Entries accumulate under "Unreleased" until the f
 
 ## Unreleased
 
+### Changed
+
+- SwiftHFR visual: the new README hero of HFRnow's `dev-swift` ("Same forum. Now native on iOS.", ezzz/HFRnow#1380).
+
 ### Added
 
 - SoHo Monitor in the apps section (#13), side by side with Crédit Immo: its Liquid Glass icon, light and dark, and
