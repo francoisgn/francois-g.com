@@ -9,7 +9,6 @@ if (!app) throw new Error('Crédit Immo is missing from src/data/apps.ts');
 
 export const creditImmo = {
   app,
-  base: '/credit-immo/',
   pages: [
     { href: '/credit-immo/', label: 'Présentation' },
     { href: '/credit-immo/assistance/', label: 'Assistance' },

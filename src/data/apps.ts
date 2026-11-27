@@ -17,7 +17,7 @@ export interface App {
   /** Language of the app's own site and UI, when it is not English. */
   language?: string;
   /** App icon, light; `srcDark` is the dark appearance of the same icon, when the app has one. */
-  icon: { src: string; srcDark?: string; alt: string };
+  icon: { src: string; srcDark?: string; alt: string; /** Opaque square, 180 px, for apple-touch-icon (iOS masks it). */ touch?: string };
   /** App Store marketing renders shown as a strip; each has its intrinsic size (avoids layout shift). */
   screenshots?: { src: string; alt: string; width: number; height: number }[];
   links: AppLinks;
@@ -42,7 +42,14 @@ export const apps: App[] = [
     ],
     language: 'French',
     // Liquid Glass icon rendered by Icon Composer's ictool (ios-app_credit-immo, CreditImmo/AppIcon.icon), 256 px.
-    icon: { src: '/apps/credit-immo.png', srcDark: '/apps/credit-immo-dark.png', alt: 'Crédit Immo app icon' },
+    // touch: the app's flat icon (ios-app_credit-immo, design/icons/AppIcon.svg), opaque: transparent corners would
+    // turn black on an iOS home screen.
+    icon: {
+      src: '/apps/credit-immo.png',
+      srcDark: '/apps/credit-immo-dark.png',
+      touch: '/apps/credit-immo-touch.png',
+      alt: 'Crédit Immo app icon',
+    },
     // App Store renders 1.1.0 (ios-app_credit-immo, build/appstore/archive/visuels-1.1.0/rendus/iphone/, already
     // public on the App Store), resized to 360 px wide WebP. Alt texts translate the French headline of each render.
     screenshots: [

@@ -10,7 +10,7 @@ import { creditImmo as ci } from '../../data/creditImmo';
   title="Assistance : Crédit Immo"
   description="Une question, un bug, une idée sur Crédit Immo ? Ouvrir une demande, et les réponses aux questions fréquentes."
   lang="fr"
-  icon={ci.app.icon.src}
+  icon={ci.app.icon.touch ?? ci.app.icon.src}
   nav={{ label: 'Crédit Immo', pages: ci.pages }}
   gradient={ci.gradient}
 >

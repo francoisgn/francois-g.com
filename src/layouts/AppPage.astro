@@ -73,7 +73,7 @@ const colors = [
     letter-spacing: -0.025em;
   }
 
-  .app-page :global(section > h2) {
+  .app-page :global(section > h2:not(.visually-hidden)) {
     margin: 0 0 18px 6px;
     font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2rem);
     font-weight: 700;

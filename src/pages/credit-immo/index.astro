@@ -13,7 +13,7 @@ const { app } = ci;
   title={ci.title}
   description={ci.description}
   lang="fr"
-  icon={app.icon.src}
+  icon={app.icon.touch ?? app.icon.src}
   nav={{ label: 'Crédit Immo', pages: ci.pages }}
   gradient={ci.gradient}
 >

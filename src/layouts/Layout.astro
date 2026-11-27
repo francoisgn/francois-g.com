@@ -9,7 +9,7 @@ interface Props {
   noindex?: boolean;
   /** Language of the page (`fr` for the Crédit Immo pages); English by default. */
   lang?: 'en' | 'fr';
-  /** Shown in the theme colour and favicon of app pages; the site's own by default. */
+  /** apple-touch-icon of an app's pages (opaque square); the site's own by default. */
   icon?: string;
 }
 
@@ -43,7 +43,7 @@ const ogImage = new URL('/og.png', Astro.site);
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="François G.: platform manager by day, side projects by night" />
+    <meta property="og:image:alt" content={lang === 'fr' ? 'François G. : platform manager le jour, projets personnels la nuit' : 'François G.: platform manager by day, side projects by night'} />
     <meta property="og:locale" content={locale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
