@@ -1,6 +1,6 @@
 ---
-// App Store app: icon, platform, tagline, feature chips, then site / support / privacy and the App Store badge
-// (only when its URL is set), then a strip of App Store renders (scrolls on its own on a narrow screen).
+// App: icon, platform, tagline, feature chips, then the links it has (site, source, support, privacy) and the App
+// Store badge (only when its URL is set), then a strip of App Store renders (scrolls on its own on a narrow screen).
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
@@ -18,9 +18,10 @@ const lang = app.language ? ` (${app.language})` : '';
 const isInternal = (href: string) => href.startsWith('/');
 const links = [
   { label: 'Website', href: app.links.site, icon: 'globe' as const },
+  { label: 'Source', href: app.links.source, icon: 'github' as const },
   { label: 'Support', href: app.links.support, icon: 'support' as const },
   { label: 'Privacy', href: app.links.privacy, icon: 'shield' as const },
-];
+].filter((l): l is typeof l & { href: string } => Boolean(l.href));
 ---
 <GlassCard as="article" class="app-card" aria-labelledby={id}>
   <picture>

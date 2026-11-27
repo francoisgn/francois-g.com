@@ -1,10 +1,13 @@
-// App Store apps. Each app's public pages (presentation, support, privacy) live on this site, under /<app>/.
+// Apps: App Store apps, whose public pages (presentation, support, privacy) live on this site under /<app>/, and
+// open-source apps distributed from their GitHub repository.
 
 export interface AppLinks {
-  /** Public site of the app (a page of this site, or an external URL). */
-  site: string;
-  support: string;
-  privacy: string;
+  /** Public site of the app (a page of this site, or an external URL); unset for an app known by its repository. */
+  site?: string;
+  support?: string;
+  privacy?: string;
+  /** Source repository, for an open-source app. */
+  source?: string;
   /** App Store page; the badge is not rendered while it is unset. */
   appStore?: string;
 }
@@ -83,6 +86,27 @@ export const apps: App[] = [
       support: `${creditImmoSite}assistance/`,
       privacy: `${creditImmoSite}confidentialite/`,
       appStore: 'https://apps.apple.com/fr/app/credit-immobilier/id6833368341',
+    },
+  },
+  {
+    name: 'SoHo Monitor',
+    platform: 'macOS',
+    // README of francoisgn/soho-monitor, read 2026-11-27: disk, CPU / memory and Claude cards done; Synology and
+    // UniFi planned, so not listed. Requires macOS 26.
+    tagline:
+      'A native menu bar monitor for a small office: disk usage by your own categories, live CPU and memory, ' +
+      'and your Claude plan usage, on a Liquid Glass desktop panel.',
+    features: ['Disk by category', 'CPU and memory', 'Claude usage', 'YAML config', 'macOS 26'],
+    // Liquid Glass icon rendered by Icon Composer's ictool (soho-monitor, Resources/AppIcon.icon, platform iOS for a
+    // full-bleed square like Crédit Immo's), 256 px, Default and Dark renditions.
+    icon: {
+      src: '/apps/soho-monitor.png',
+      srcDark: '/apps/soho-monitor-dark.png',
+      alt: 'SoHo Monitor app icon',
+    },
+    links: {
+      source: 'https://github.com/francoisgn/soho-monitor',
+      support: 'https://github.com/francoisgn/soho-monitor/issues',
     },
   },
 ];
