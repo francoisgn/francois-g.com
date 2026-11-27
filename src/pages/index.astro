@@ -51,7 +51,7 @@ const stars = await starsFor([belayline, craft, ...projects]);
     <section id="apps" aria-labelledby="apps-title">
       <p class="eyebrow">Side projects</p>
       <h2 id="apps-title">Apps</h2>
-      <div class="stack">
+      <div class="grid two">
         {apps.map((app) => <AppCard app={app} />)}
       </div>
     </section>
@@ -89,8 +89,6 @@ const stars = await starsFor([belayline, craft, ...projects]);
   .intro a { font-weight: 600; }
 
   .intro :global(.stars) { display: inline-flex; margin: 0 4px 0 2px; vertical-align: -1px; }
-
-  .stack { display: grid; gap: 20px; }
 
   .grid {
     display: grid;

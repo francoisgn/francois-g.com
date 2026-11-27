@@ -1,6 +1,14 @@
 // Apps: App Store apps, whose public pages (presentation, support, privacy) live on this site under /<app>/, and
 // open-source apps distributed from their GitHub repository.
 
+/** An image under `public/`, with its intrinsic size (avoids layout shift). */
+export interface Capture {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface AppLinks {
   /** Public site of the app (a page of this site, or an external URL); unset for an app known by its repository. */
   site?: string;
@@ -22,7 +30,9 @@ export interface App {
   /** App icon, light; `srcDark` is the dark appearance of the same icon, when the app has one. */
   icon: { src: string; srcDark?: string; alt: string; /** Opaque square, 180 px, for apple-touch-icon (iOS masks it). */ touch?: string };
   /** App Store marketing renders shown as a strip; each has its intrinsic size (avoids layout shift). */
-  screenshots?: { src: string; alt: string; width: number; height: number }[];
+  screenshots?: Capture[];
+  /** Captures of the app's own tiles (cards, widgets), shown as a mosaic: each row at one height, full width. */
+  tiles?: Capture[][];
   links: AppLinks;
 }
 
@@ -104,6 +114,32 @@ export const apps: App[] = [
       srcDark: '/apps/soho-monitor-dark.png',
       alt: 'SoHo Monitor app icon',
     },
+    // Captures from the soho-monitor README (docs/images/ at 2eb000b), converted to WebP; same ratio as the PNGs.
+    tiles: [
+      [
+        {
+          src: '/apps/soho-monitor/disk-card.webp',
+          alt: 'Disk card: Macintosh HD, 314.1 GB of 494.4 GB used, 180.2 GB free, a segmented bar and chips for ' +
+            'Dev, Applications, Photos, App data and other categories.',
+          width: 884,
+          height: 488,
+        },
+        {
+          src: '/apps/soho-monitor/claude-card.webp',
+          alt: 'Claude card: weekly limit bar and 5-hour and per-model donuts for two Claude plans.',
+          width: 888,
+          height: 676,
+        },
+      ],
+      [
+        {
+          src: '/apps/soho-monitor/system-cards.webp',
+          alt: 'CPU card at 21 % on an Apple M4 with a sparkline, and memory card at 65 %, pressure normal.',
+          width: 888,
+          height: 392,
+        },
+      ],
+    ],
     links: {
       source: 'https://github.com/francoisgn/soho-monitor',
       support: 'https://github.com/francoisgn/soho-monitor/issues',
