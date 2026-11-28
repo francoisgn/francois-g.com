@@ -1,6 +1,7 @@
 ---
-// The one page: header, the harness (featured), the project led, the ArtCraft Crafting Apps, the App Store app,
-// the other projects, footer. Content comes from src/data/.
+// The one page: header, then the projects by category: the agentic harness (featured), enterprise grade, iOS apps
+// (SwiftHFR led, Crédit Immo), the ArtCraft Crafting Apps contributed to, homelab grade; footer. Content comes from
+// src/data/.
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -11,27 +12,41 @@ import AppCard from '../components/AppCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Stars from '../components/Stars.astro';
 import { apps } from '../data/apps';
-import { belayline, craft, projects, swiftHfr } from '../data/projects';
+import { belayline, craft, enterprise, homelab, swiftHfr } from '../data/projects';
 import { starsFor } from '../lib/stars';
 
-const stars = await starsFor([belayline, craft, ...projects]);
+const stars = await starsFor([belayline, craft, ...enterprise, ...homelab]);
+const iosApps = apps.filter((a) => a.category === 'ios');
+const homelabApps = apps.filter((a) => a.category === 'homelab');
 ---
 <Layout
-  title="François G.: platform manager, agentic engineering, apps and open source"
-  description="François G., platform manager by day (multicloud PaaS, cloud transformation, FinOps). Side projects by night: the Belayline agentic harness, the SwiftHFR rewrite, ArtCraft's LightCraft and PdfCraft, the Crédit Immo and SoHo Monitor apps and more."
+  title="François G.: cloud platforms, platform engineering and agentic engineering"
+  description="François G., Group Cloud Center of Excellence Lead and Head of Platform Engineering: multicloud platforms (Google Cloud, AWS, Alibaba Cloud) and internal developer platforms. Projects: the Belayline agentic harness, enterprise-grade platform tools, the SwiftHFR and Crédit Immo iOS apps, ArtCraft contributions and homelab tools."
 >
   <Header />
   <main id="main">
-    <section id="belayline" aria-labelledby="belayline-title">
-      <p class="eyebrow">How I build</p>
-      <h2 id="belayline-title">The harness</h2>
+    <section id="harness" aria-labelledby="harness-title">
+      <p class="eyebrow">Agentic harness</p>
+      <h2 id="harness-title">How I build</h2>
       <FeaturedCard harness={belayline} stars={stars.get(belayline.repo)} />
     </section>
 
-    <section id="swifthfr" aria-labelledby="swifthfr-title">
-      <p class="eyebrow">Leading</p>
-      <h2 id="swifthfr-title">A native rewrite</h2>
-      <LeadCard lead={swiftHfr} />
+    <section id="enterprise" aria-labelledby="enterprise-title">
+      <p class="eyebrow">Enterprise grade</p>
+      <h2 id="enterprise-title">Platform tools</h2>
+      <p class="intro">Open-source building blocks for a company's cloud and developer platform.</p>
+      <div class="grid two">
+        {enterprise.map((p) => <ProjectCard project={p} stars={stars.get(p.repo)} />)}
+      </div>
+    </section>
+
+    <section id="ios" aria-labelledby="ios-title">
+      <p class="eyebrow">iOS apps</p>
+      <h2 id="ios-title">Native on iPhone</h2>
+      <div class="stack">
+        <LeadCard lead={swiftHfr} />
+        {iosApps.map((app) => <AppCard app={app} wide />)}
+      </div>
     </section>
 
     <section id="artcraft" aria-labelledby="artcraft-title">
@@ -48,19 +63,15 @@ const stars = await starsFor([belayline, craft, ...projects]);
       </div>
     </section>
 
-    <section id="apps" aria-labelledby="apps-title">
-      <p class="eyebrow">Side projects</p>
-      <h2 id="apps-title">Apps</h2>
-      <div class="grid two">
-        {apps.map((app) => <AppCard app={app} />)}
-      </div>
-    </section>
-
-    <section id="projects" aria-labelledby="projects-title">
-      <p class="eyebrow">Open source</p>
-      <h2 id="projects-title">Other projects</h2>
-      <div class="grid">
-        {projects.map((p) => <ProjectCard project={p} stars={stars.get(p.repo)} />)}
+    <section id="homelab" aria-labelledby="homelab-title">
+      <p class="eyebrow">Homelab grade</p>
+      <h2 id="homelab-title">Small office, home lab</h2>
+      <p class="intro">Tools for the Mac, the NAS and the network at home, built with the same rigour.</p>
+      <div class="stack">
+        {homelabApps.map((app) => <AppCard app={app} wide />)}
+        <div class="grid">
+          {homelab.map((p) => <ProjectCard project={p} stars={stars.get(p.repo)} />)}
+        </div>
       </div>
     </section>
   </main>
@@ -89,6 +100,8 @@ const stars = await starsFor([belayline, craft, ...projects]);
   .intro a { font-weight: 600; }
 
   .intro :global(.stars) { display: inline-flex; margin: 0 4px 0 2px; vertical-align: -1px; }
+
+  .stack { display: grid; gap: 20px; }
 
   .grid {
     display: grid;

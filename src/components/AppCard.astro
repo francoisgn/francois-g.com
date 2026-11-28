@@ -3,6 +3,7 @@
 // App Store badge (only when its URL is set), then its visuals at the bottom of the card (aligned when two cards sit
 // side by side): a strip of App Store renders (scrolls on its own on a narrow screen) and/or a mosaic of the app's
 // tiles (each row at one height, filling the width: every item grows in proportion to its aspect ratio).
+// `wide`: for a card alone on its row, the text on the left and the visuals on the right (stacked on a narrow screen).
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
@@ -11,9 +12,10 @@ import type { App } from '../data/apps';
 
 interface Props {
   app: App;
+  wide?: boolean;
 }
 
-const { app } = Astro.props;
+const { app, wide = false } = Astro.props;
 const id = `app-${app.name.normalize('NFD').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
 const lang = app.language ? ` (${app.language})` : '';
 /** A page of this site opens in place; an external site opens in a new tab. */
@@ -27,7 +29,8 @@ const links = [
 const hasShots = !!app.screenshots?.length;
 const hasTiles = !!app.tiles?.length;
 ---
-<GlassCard as="article" class="app-card" aria-labelledby={id}>
+<GlassCard as="article" class={wide ? 'app-card wide' : 'app-card'} aria-labelledby={id}>
+  <div class="text">
   <div class="head">
     <picture>
       {app.icon.srcDark && <source srcset={app.icon.srcDark} media="(prefers-color-scheme: dark)" />}
@@ -67,6 +70,7 @@ const hasTiles = !!app.tiles?.length;
     </ul>
   </div>
   {app.language && <p class="note">The app and its site are in {app.language}.</p>}
+  </div>
   {(hasShots || hasTiles) && (
     <div class="media">
       {hasShots && (
@@ -108,6 +112,13 @@ const hasTiles = !!app.tiles?.length;
     display: flex;
     flex-direction: column;
     padding: 28px;
+  }
+
+  /* Wide card: text and visuals side by side, the visuals centred against the text. */
+  @media (min-width: 900px) {
+    :global(.app-card.wide) { flex-direction: row; align-items: center; gap: 36px; }
+    :global(.app-card.wide) .text { flex: 1 1 0; min-width: 0; }
+    :global(.app-card.wide) .media { flex: 1.25 1 0; min-width: 0; margin-top: 0; padding-top: 0; }
   }
 
   .head { display: flex; align-items: flex-start; gap: 20px; }

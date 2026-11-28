@@ -11,14 +11,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-francoisgn-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/francoisgn)
 
-> The personal showcase site of François G.: profile (LinkedIn, GitHub), the Belayline harness every project is
-> built with, the SwiftHFR rewrite he leads, his ArtCraft Crafting Apps contributions, his apps (Crédit Immo,
-> SoHo Monitor) and other open-source projects, as cards with images, technology chips, descriptions and links. Static, fast, served by GitHub Pages on
-> [francois-g.com](https://francois-g.com).
+> The personal showcase site of François G.: profile (role, bio, "Get in touch" via LinkedIn, GitHub) and his
+> projects by category: the Belayline agentic harness every project is built with, enterprise-grade platform tools
+> (GCA License Portal, Apigee X Explorer for Backstage), iOS apps (the SwiftHFR rewrite he leads, Crédit Immo), his
+> ArtCraft Crafting Apps contributions, and homelab-grade tools (SoHo Monitor, seed-box, SoHo-agent-relay). Static,
+> fast, served by GitHub Pages on [francois-g.com](https://francois-g.com).
 
 **TL;DR**: an Astro static site, designed in the Liquid Glass spirit (Apple system fonts, glass cards, subtle
 gradients), built and deployed by CI from `main`. Nothing runs on a home server. Status: **v1** (one page: profile,
-Belayline, SwiftHFR, ArtCraft Crafting Apps, apps, other projects); see the [issues](https://github.com/francoisgn/francois-g.com/issues).
+agentic harness, enterprise grade, iOS apps, ArtCraft, homelab grade); see the [issues](https://github.com/francoisgn/francois-g.com/issues).
 
 ![The site in light mode, desktop width](docs/screenshots/desktop-light.jpg)
 
@@ -37,16 +38,16 @@ Belayline, SwiftHFR, ArtCraft Crafting Apps, apps, other projects); see the [iss
 | Path | Role |
 |---|---|
 | `src/pages/cv/index.astro` | Unlisted CV page (`noindex`, out of the sitemap, not linked unless `cv.linkedFromHome`), with print styles for the PDF |
-| `src/pages/index.astro` | The home page: header, Belayline (featured), SwiftHFR, ArtCraft Crafting Apps, apps (two cards side by side), other projects, footer |
+| `src/pages/index.astro` | The home page: header, then the projects by category: agentic harness (Belayline, featured), enterprise grade, iOS apps (SwiftHFR, Crédit Immo), ArtCraft Crafting Apps, homelab grade (SoHo Monitor, then the other tools); footer |
 | `src/pages/credit-immo/` | The Crédit Immo app's public pages, in French: presentation, `assistance/`, `confidentialite/`; App Store Connect links to them (keep the paths) |
 | `src/layouts/Layout.astro` | Page shell: meta (Open Graph, Twitter), language, favicon, skip link |
 | `src/layouts/AppPage.astro` | Shell of an app's pages: page bar (`AppPageNav`), the app's colours, prose styles |
-| `src/components/` | `GlassCard`, `Chip`, `Header`, `FeaturedCard` (harness), `LeadCard` (project led, stat tiles), `CraftCard` (one Crafting App), `AppCard` (App Store renders and/or a mosaic of the app's tiles), `AppStoreBadge`, `AppPageNav`, `ProjectCard`, `Shot` (sized, lazy image), `Stars`, `Footer`, `Icon` (inline SVG) |
+| `src/components/` | `GlassCard`, `Chip`, `Header`, `FeaturedCard` (harness), `LeadCard` (project led, stat tiles), `CraftCard` (one Crafting App), `AppCard` (App Store renders and/or a mosaic of the app's tiles; `wide`: text left, visuals right), `AppStoreBadge`, `AppPageNav`, `ProjectCard` (maturity chip, "coming next" line), `Shot` (sized, lazy image), `Stars`, `Footer`, `Icon` (inline SVG) |
 | `src/styles/global.css` | Liquid Glass tokens (colours, glass, shadows), light and dark |
-| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `creditImmo.ts` (the app's pages), `projects.ts` (`belayline`, `swiftHfr`, `craft`, `projects`); the sources of every figure are noted next to it |
+| `src/data/` | Typed content: `profile.ts`, `apps.ts`, `creditImmo.ts` (the app's pages), `projects.ts` (`belayline`, `swiftHfr`, `craft`, `enterprise`, `homelab`); `apps.ts` sorts each app into `ios` or `homelab`; the sources of every figure are noted next to it |
 | `scripts/cv-pdf.sh` | Renders `/cv/` to `public/cv/francois-guillon-cv.pdf` (A4, headless Chrome); `--check` (pre-commit, CI) fails when the PDF is older than its inputs |
 | `src/lib/stars.ts` | GitHub stars fetched at build time; any API error keeps the static fallback |
-| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icons, App Store renders and app tiles (`apps/`), project images (`projects/`, WebP) |
+| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icons, App Store renders and app tiles (`apps/`), project images (`projects/`, WebP, one SVG diagram) |
 | `docs/screenshots/` | Desktop and mobile, light and dark; the CV page (`cv-*.jpg`); the Crédit Immo pages (`credit-immo-*.jpg`); the apps section (`apps-*.jpg`) |
 | `Dockerfile`, `compose.yaml` | Dev and test container (`docker compose up dev`) |
 | `.github/workflows/ci.yml` | pre-commit, `astro check`, build, gitleaks; deploy to Pages from `main` |
@@ -95,7 +96,8 @@ Coding agents follow [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) and the
 
 Code: [MIT](LICENSE). Personal content (texts, photo, logos and images of the projects) is not covered by the licence;
 the LightCraft and PdfCraft screenshots come from the storytold repositories (MIT OR Apache-2.0), the SoHo Monitor
-icon and tiles from francoisgn/soho-monitor (MIT). The vendored
+icon and tiles from francoisgn/soho-monitor (MIT); the GCA License Portal and seed-box social previews and the Apigee X
+Explorer diagram from their repositories. The vendored
 harness files in `.harness/` carry Belayline's own MIT licence.
 
 ## Support
