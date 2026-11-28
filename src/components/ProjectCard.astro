@@ -1,6 +1,6 @@
 ---
-// Own project: optional image, name (links to the repository; the whole card is the target), stars when known and
-// above zero, description, technology chips.
+// Own project: optional image, name (links to the repository; the whole card is the target), maturity chip, stars when
+// known and above zero, description, technology chips, what comes next.
 import GlassCard from './GlassCard.astro';
 import Chip from './Chip.astro';
 import Icon from './Icon.astro';
@@ -26,12 +26,14 @@ const id = `project-${project.repo.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
         <span class="visually-hidden">on GitHub (opens in a new tab)</span>
       </a>
     </h3>
+    {project.status && <Chip label={project.status} variant="accent" />}
     <Stars count={stars} />
   </div>
   <p class="desc">{project.description}</p>
   <ul class="tech" aria-label="Technologies">
     {project.tech.map((t) => <li><Chip label={t} variant="tech" /></li>)}
   </ul>
+  {project.next && <p class="next">{project.next}</p>}
   <p class="repo" aria-hidden="true">
     <Icon name="github" size={15} />
     <span>{project.repo}</span>
@@ -51,12 +53,26 @@ const id = `project-${project.repo.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
 
   .top {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
   }
 
   h3 { font-size: 1.3rem; font-weight: 700; overflow-wrap: anywhere; }
+
+  /* Stars stay on the right of the row. */
+  .top :global(.stars) { margin-left: auto; }
+
+  .next {
+    margin: 2px 0 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--chip-bg);
+    border: 0.5px dashed var(--chip-border);
+  }
 
   .stretched {
     color: var(--text);

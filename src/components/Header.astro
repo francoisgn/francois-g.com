@@ -1,5 +1,5 @@
 ---
-// Hero: avatar (photo or initials), name, short bio (one paragraph per line), profile links. Links without a URL are not rendered.
+// Hero: avatar (photo or initials), name, role, short bio (one paragraph per line), profile links. Links without a URL are not rendered.
 import GlassCard from './GlassCard.astro';
 import Icon from './Icon.astro';
 import { profile } from '../data/profile';
@@ -26,6 +26,7 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
     </div>
     <div class="intro">
       <h1>{profile.name}</h1>
+      <p class="role">{profile.role}</p>
       <div class="bio">
         {profile.bio.map((line) => <p>{line}</p>)}
       </div>
@@ -33,7 +34,7 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
         <ul class="links">
           {links.map((l) => (
             <li>
-              <a class="pill" href={l.href} rel="me noopener" target="_blank">
+              <a class:list={['pill', { primary: l.primary }]} href={l.href} rel="me noopener" target="_blank">
                 <Icon name={l.icon} />
                 <span>{l.label}</span>
                 <span class="visually-hidden">(opens in a new tab)</span>
@@ -45,11 +46,11 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
     </div>
   </GlassCard>
   <nav class="sections" aria-label="Sections">
-    <a href="#belayline">Belayline</a>
-    <a href="#swifthfr">SwiftHFR</a>
+    <a href="#harness">Harness</a>
+    <a href="#enterprise">Enterprise</a>
+    <a href="#ios">iOS apps</a>
     <a href="#artcraft">ArtCraft</a>
-    <a href="#apps">Apps</a>
-    <a href="#projects">Projects</a>
+    <a href="#homelab">Homelab</a>
     {cv.linkedFromHome && <a href="/cv/">CV</a>}
   </nav>
 </header>
@@ -103,8 +104,15 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
 
   h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem); font-weight: 700; }
 
+  .role {
+    margin: 6px 0 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
   .bio {
-    margin: 8px 0 18px;
+    margin: 10px 0 18px;
     font-size: 1.125rem;
     color: var(--text-2);
   }
@@ -144,6 +152,18 @@ const links = profile.links.filter((l): l is typeof l & { href: string } => Bool
   }
 
   .pill:focus-visible { border-radius: 999px; }
+
+  /* The call to action: system blue, white text (contrast 4.5:1 or more in both themes). */
+  .pill.primary {
+    color: #fff;
+    background: linear-gradient(180deg, #0a6fe0, #0058c4);
+    border-color: rgb(0 0 0 / 0.08);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 6px 16px -6px rgb(0 102 214 / 0.6);
+  }
+
+  .pill.primary:hover {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 10px 22px -8px rgb(0 102 214 / 0.7);
+  }
 
   .sections {
     justify-self: center;

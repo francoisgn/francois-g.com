@@ -1,5 +1,5 @@
-// Projects, in the order of the page: the harness (featured), the project led, the ArtCraft Crafting Apps
-// contributed to, then the other own projects. Facts and their sources are noted next to each entry.
+// Projects, by category of the page: the agentic harness (featured), the iOS app led (SwiftHFR), the ArtCraft
+// Crafting Apps contributed to, the enterprise-grade projects, the homelab-grade projects. Facts and their sources are noted next to each entry.
 
 export type Repo = `${string}/${string}`;
 
@@ -21,6 +21,10 @@ export interface Project {
   visual?: Visual;
   /** Fallback star count, used when the GitHub API cannot be reached; unset = stars not shown. */
   stars?: number;
+  /** Maturity shown as a chip next to the name (e.g. "Alpha"); unset = released or not worth saying. */
+  status?: string;
+  /** One line at the bottom of the card: what comes next. */
+  next?: string;
 }
 
 /** The harness every other project is built with (featured, first section). */
@@ -174,15 +178,74 @@ export const craft: CraftSuite = {
   ],
 };
 
-// Other own projects. Descriptions shortened from each repository's GitHub description
-// (`gh repo view <repo> --json description,primaryLanguage,repositoryTopics`, read 2026-11-24).
-export const projects: Project[] = [
+// Enterprise grade: tools for a company's cloud platform. READMEs read 2026-11-28. Visuals: the GCA portal's
+// docs/social-preview.png (WebP) and the Backstage plugin's docs/diagrams/architecture.svg, as is.
+export const enterprise: Project[] = [
+  {
+    name: 'GCA License Portal',
+    repo: 'francoisgn/gcp-gca-lic-mgmt',
+    description:
+      'Self-service Gemini Code Assist licenses for a Google Cloud organization: eligible employees get a seat in ' +
+      'seconds, unused seats go back to the pool, administrators keep control, Google stays the source of truth.',
+    tech: ['Go', 'Cloud Run', 'PostgreSQL', 'Terraform'],
+    status: 'Alpha',
+    next: 'Coming next: the same flow as a Backstage plugin, inside the internal developer portal.',
+    visual: {
+      src: '/projects/gca-license-portal.webp',
+      alt: 'GCA License Portal: self-service Gemini Code Assist licenses, approved in seconds, reclaimed when unused; ' +
+        'employee, IAP and Google SSO, the portal on Cloud Run, the license pool, the enterprise directory and ' +
+        'Cloud SQL.',
+      width: 1280,
+      height: 640,
+    },
+    stars: 0,
+  },
+  {
+    name: 'Apigee X Explorer for Backstage',
+    repo: 'francoisgn/backstage-apigeeX-explorer',
+    description:
+      'Explore, audit and clean up an Apigee X platform at scale from Backstage: one matrix of every proxy across ' +
+      'environments, drift against your infrastructure as code, and the endpoints nobody calls any more.',
+    tech: ['TypeScript', 'Backstage', 'Apigee X'],
+    status: 'Pre-alpha',
+    visual: {
+      src: '/projects/backstage-apigeex-explorer.svg',
+      alt: 'Planned architecture: adopter CI exports spaces and desired state; the Backstage frontend and backend ' +
+        'plugins read Apigee X management and analytics APIs (read-only) and store snapshots and drift reports.',
+      width: 1265,
+      height: 658,
+    },
+    stars: 0,
+  },
+];
+
+// Homelab grade: tools for a small office / home office. Descriptions from each repository's GitHub description
+// and README, read 2026-11-28. SoHo Monitor is an app card (src/data/apps.ts). seed-box visual: its
+// docs/assets/social-preview.png (WebP).
+export const homelab: Project[] = [
   {
     name: 'seed-box',
     repo: 'francoisgn/seed-box',
     description:
-      'Control plane for qBittorrent, cross-seed and Prowlarr: see whether your library is seeded on every tracker, then fix what is not in one click.',
+      'Seedbox control plane for qBittorrent, cross-seed and Prowlarr: check that your library is seeded on every ' +
+      'tracker, then fix duplicates, failed matches and stopped torrents in one click. One container.',
     tech: ['Python', 'Docker', 'qBittorrent'],
+    visual: {
+      src: '/projects/seed-box.webp',
+      alt: 'seed-box in a terminal window: "is my library actually seeded on every tracker?", a library heatmap, ' +
+        'coverage per tracker and the five fixes it applies in one click.',
+      width: 1280,
+      height: 640,
+    },
+    stars: 0,
+  },
+  {
+    name: 'SoHo-agent-relay',
+    repo: 'francoisgn/SoHo-agent-relay',
+    description:
+      'An always-on Claude Code agent on an old home NAS, driven from your phone: a hardened container with ' +
+      'guardrails (policy hooks, PR-only GitHub, read-mostly network APIs) that asks before anything risky.',
+    tech: ['Claude Code', 'Docker', 'Bash'],
     stars: 0,
   },
   {

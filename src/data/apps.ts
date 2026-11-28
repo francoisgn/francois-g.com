@@ -22,6 +22,8 @@ export interface AppLinks {
 
 export interface App {
   name: string;
+  /** Section of the home page: the iOS apps, or the homelab-grade projects. */
+  category: 'ios' | 'homelab';
   platform: string;
   tagline: string;
   features: string[];
@@ -42,6 +44,7 @@ const creditImmoSite = '/credit-immo/';
 export const apps: App[] = [
   {
     name: 'Crédit Immo',
+    category: 'ios',
     platform: 'iPhone',
     tagline: 'A French mortgage simulator that runs the numbers the way your bank does, before the meeting.',
     features: [
@@ -100,6 +103,7 @@ export const apps: App[] = [
   },
   {
     name: 'SoHo Monitor',
+    category: 'homelab',
     platform: 'macOS',
     // README of francoisgn/soho-monitor, read 2026-11-27: disk, CPU / memory and Claude cards done; Synology and
     // UniFi planned, so not listed. Requires macOS 26.

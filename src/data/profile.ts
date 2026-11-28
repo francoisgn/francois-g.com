@@ -4,7 +4,9 @@
 export interface ProfileLink {
   label: string;
   href?: string;
-  icon: 'github' | 'linkedin' | 'coffee';
+  icon: 'github' | 'linkedin' | 'coffee' | 'chat';
+  /** The call to action: a filled pill, first in the row. */
+  primary?: boolean;
 }
 
 export interface Photo {
@@ -19,7 +21,9 @@ export interface Profile {
   name: string;
   /** Shown in the neutral avatar while there is no photo. */
   initials: string;
-  /** Short lines under the name, one per line. */
+  /** Role, under the name. */
+  role: string;
+  /** Short lines under the role, one per line. */
   bio: string[];
   photo?: Photo;
   links: ProfileLink[];
@@ -28,19 +32,23 @@ export interface Profile {
 export const profile: Profile = {
   name: 'François G.',
   initials: 'FG',
+  // Wording validated by the maintainer (2026-11-28): no employer named on the home page (the /cv/ page keeps them).
+  role: 'Group Cloud Center of Excellence Lead & Head of Platform Engineering',
   bio: [
-    'Group Cloud Platform Manager at Valeo, leading the Group Cloud Center of Excellence: AWS, GCP and Alibaba Cloud ' +
-      'landing zones, platform engineering and FinOps, with 20–30 cloud engineers and architects across France and India.',
-    '15+ years in SRE and platform leadership, from payment platforms at Ingenico/Worldline (99.98 % availability, ' +
-      'billions of transactions a year) to industrial multi-cloud.',
-    'Side projects by night: agentic engineering (Belayline), native apps, open source.',
+    'I build multicloud platforms on Google Cloud, AWS and Alibaba Cloud, and the internal developer platform that ' +
+      'lets engineers, and now their AI agents, ship safely at scale.',
+    'Ten years as an SRE keeping critical systems up, then leading the teams that keep them up: a decade of ' +
+      'international teams across Europe, the Middle East and India.',
+    'I run transformations that land: a clear target, measurable outcomes, and platforms teams actually choose to use.',
   ],
   // Memoji supplied by the maintainer (2026-11-25): square crop on the head and shoulders, WebP, metadata stripped.
   // Without a photo the avatar shows the initials.
   photo: { src: '/profile-256.webp', srcLarge: '/profile-512.webp', alt: 'Memoji of François G.' },
+  // "Get in touch" opens LinkedIn: no email address in clear on the site (CLAUDE.md, decision 2026-11-28).
   links: [
-    { label: 'GitHub', href: 'https://github.com/francoisgn', icon: 'github' },
+    { label: 'Get in touch', href: 'https://www.linkedin.com/in/francois-g', icon: 'chat', primary: true },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/francois-g', icon: 'linkedin' },
+    { label: 'GitHub', href: 'https://github.com/francoisgn', icon: 'github' },
     { label: 'Buy Me a Coffee', href: 'https://buymeacoffee.com/francoisgn', icon: 'coffee' },
   ],
 };
