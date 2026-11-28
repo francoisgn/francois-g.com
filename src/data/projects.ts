@@ -178,8 +178,9 @@ export const craft: CraftSuite = {
   ],
 };
 
-// Enterprise grade: tools for a company's cloud platform. READMEs read 2026-11-28. Visuals: the GCA portal's
-// docs/social-preview.png (WebP) and the Backstage plugin's docs/diagrams/architecture.svg, as is.
+// Enterprise grade: tools for a company's cloud platform. READMEs read 2026-11-28. Visual: the GCA portal's
+// docs/social-preview.png (WebP). The Backstage plugin shows no image until its repository has a social preview
+// (maintainer, 2026-11-28).
 export const enterprise: Project[] = [
   {
     name: 'GCA License Portal',
@@ -208,13 +209,6 @@ export const enterprise: Project[] = [
       'environments, drift against your infrastructure as code, and the endpoints nobody calls any more.',
     tech: ['TypeScript', 'Backstage', 'Apigee X'],
     status: 'Pre-alpha',
-    visual: {
-      src: '/projects/backstage-apigeex-explorer.svg',
-      alt: 'Planned architecture: adopter CI exports spaces and desired state; the Backstage frontend and backend ' +
-        'plugins read Apigee X management and analytics APIs (read-only) and store snapshots and drift reports.',
-      width: 1265,
-      height: 658,
-    },
     stars: 0,
   },
 ];

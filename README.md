@@ -47,7 +47,7 @@ agentic harness, enterprise grade, iOS apps, ArtCraft, homelab grade); see the [
 | `src/data/` | Typed content: `profile.ts`, `apps.ts`, `creditImmo.ts` (the app's pages), `projects.ts` (`belayline`, `swiftHfr`, `craft`, `enterprise`, `homelab`); `apps.ts` sorts each app into `ios` or `homelab`; the sources of every figure are noted next to it |
 | `scripts/cv-pdf.sh` | Renders `/cv/` to `public/cv/francois-guillon-cv.pdf` (A4, headless Chrome); `--check` (pre-commit, CI) fails when the PDF is older than its inputs |
 | `src/lib/stars.ts` | GitHub stars fetched at build time; any API error keeps the static fallback |
-| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icons, App Store renders and app tiles (`apps/`), project images (`projects/`, WebP, one SVG diagram) |
+| `public/` | Static files: `CNAME` (custom domain), favicon, touch icon, `og.png`, app icons, App Store renders and app tiles (`apps/`), project images (`projects/`, WebP) |
 | `docs/screenshots/` | Desktop and mobile, light and dark; the CV page (`cv-*.jpg`); the Crédit Immo pages (`credit-immo-*.jpg`); the apps section (`apps-*.jpg`) |
 | `Dockerfile`, `compose.yaml` | Dev and test container (`docker compose up dev`) |
 | `.github/workflows/ci.yml` | pre-commit, `astro check`, build, gitleaks; deploy to Pages from `main` |
@@ -96,8 +96,8 @@ Coding agents follow [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) and the
 
 Code: [MIT](LICENSE). Personal content (texts, photo, logos and images of the projects) is not covered by the licence;
 the LightCraft and PdfCraft screenshots come from the storytold repositories (MIT OR Apache-2.0), the SoHo Monitor
-icon and tiles from francoisgn/soho-monitor (MIT); the GCA License Portal and seed-box social previews and the Apigee X
-Explorer diagram from their repositories. The vendored
+icon and tiles from francoisgn/soho-monitor (MIT); the GCA License Portal and seed-box social previews from their
+repositories. The vendored
 harness files in `.harness/` carry Belayline's own MIT licence.
 
 ## Support
