@@ -11,7 +11,8 @@ Notable changes, newest first. Entries accumulate under "Unreleased" until the f
   Backstage plugin to come, Apigee X Explorer for Backstage), iOS apps (SwiftHFR, Crédit Immo), ArtCraft, homelab
   grade (SoHo Monitor, seed-box, SoHo-agent-relay, activity-cheatmap). New header: role, rewritten bio without employer
   names, "Get in touch" call to action (LinkedIn). Project cards gain a maturity chip and a "coming next" line; a wide
-  app card puts its visuals on the right.
+  app card puts its visuals on the right. The Apigee X Explorer card shows no image until the plugin has a social
+  preview.
 - SwiftHFR visual: the new README hero of HFRnow's `dev-swift` ("Same forum. Now native on iOS.", ezzz/HFRnow#1380); figures
   remeasured at `dca2318b` (4,800+ tests, 550+ merged PRs) and the status note (M1 to M3 complete, M4 at 81 %).
 
